@@ -16,8 +16,8 @@ public class WikiDumpParser {
 
 	private String page;
 	private Document dom;
-	private long id;
-	private long ns;
+	private int id;
+	private int ns;
 	private String text;
 	private String title;
 	private List<String> links;
@@ -25,8 +25,8 @@ public class WikiDumpParser {
 	public WikiDumpParser() {
 		this.page = "";
 		this.dom = new Document("");
-		this.id = -1L;
-		this.ns = -1L;
+		this.id = -1;
+		this.ns = -1;
 		this.text = "";
 		this.title = "";
 		this.links = new ArrayList<String>();
@@ -47,12 +47,12 @@ public class WikiDumpParser {
 		this.links = extractLinks();
 	}
 
-	private long extractNs() {
-		long ns = -1L;
+	private int extractNs() {
+		int ns = -1;
 
 		try {
 			Element nsTag = dom.getElementsByTag("ns").get(0);
-			ns = Long.parseLong(nsTag.textNodes().get(0).text());
+			ns = Integer.parseInt(nsTag.textNodes().get(0).text());
 		} catch (IndexOutOfBoundsException e) {
 //			e.printStackTrace();
 		} catch (NumberFormatException ne) {
@@ -62,12 +62,12 @@ public class WikiDumpParser {
 		return ns;
 	}
 
-	private long extractId() {
-		long id = -1L;
+	private int extractId() {
+		int id = -1;
 
 		try {
 			Element idTag = dom.getElementsByTag("id").get(0);
-			id = Long.parseLong(idTag.textNodes().get(0).text());
+			id = Integer.parseInt(idTag.textNodes().get(0).text());
 		} catch (IndexOutOfBoundsException e) {
 //			e.printStackTrace();
 		} catch (NumberFormatException ne) {
@@ -124,11 +124,11 @@ public class WikiDumpParser {
 		return links;
 	}
 
-	public long getNs() {
+	public int getNs() {
 		return this.ns;
 	}
 
-	public long getId() {
+	public int getId() {
 		return this.id;
 	}
 

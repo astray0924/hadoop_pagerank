@@ -9,25 +9,42 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.VIntWritable;
 
-public class PageNodeOutLinkWritable extends AbstractPageNodeWritable {
+public class PageMetaNodeWritable extends AbstractPageNodeWritable {
+	private Text title;
 	private TextArrayWritable outLinks;
 
-	public PageNodeOutLinkWritable() {
+	public PageMetaNodeWritable() {
 		super();
+		this.title = new Text("");
 		this.outLinks = new TextArrayWritable();
 	}
 
-	public PageNodeOutLinkWritable(Integer id, List<String> outLinks,
-			Integer outCount, Float score) {
+	public PageMetaNodeWritable(Integer id, String title,
+			List<String> outLinks, Integer outCount, Float score) {
 		super(id, outCount, score);
+
+		// title
+		this.title = new Text(title);
+
+		// Out Links
 		Text[] outLinksArray = outLinks.toArray(new Text[] { new Text("") });
 		this.outLinks.set(outLinksArray);
 	}
 
-	public PageNodeOutLinkWritable(VIntWritable id, VIntWritable outCount,
-			TextArrayWritable outLinks, FloatWritable score) {
+	public PageMetaNodeWritable(VIntWritable id, Text title,
+			VIntWritable outCount, TextArrayWritable outLinks,
+			FloatWritable score) {
 		super(id, outCount, score);
+		this.title = title;
 		this.outLinks = outLinks;
+	}
+
+	public Text getTitle() {
+		return title;
+	}
+
+	public void setTitle(Text title) {
+		this.title = title;
 	}
 
 	public TextArrayWritable getOutLinks() {
@@ -41,18 +58,21 @@ public class PageNodeOutLinkWritable extends AbstractPageNodeWritable {
 	@Override
 	public void write(DataOutput out) throws IOException {
 		super.write(out);
+		title.write(out);
 		outLinks.write(out);
 	}
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
 		super.readFields(in);
+		title.readFields(in);
 		outLinks.readFields(in);
 	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode() + getOutLinks().hashCode();
+		return super.hashCode() + getOutLinks().hashCode() + 2
+				* getTitle().hashCode();
 	}
 
 }
