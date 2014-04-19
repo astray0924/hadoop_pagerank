@@ -1,5 +1,8 @@
 package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +12,7 @@ import java.util.List;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
@@ -37,7 +41,7 @@ public class TestJobParseMapper {
 	public void testValid() throws IOException {
 		// Case 1
 		Pair<LongWritable, Text> input1 = new Pair<LongWritable, Text>(
-				new LongWritable(1), new Text(pages.get(0)));
+				new LongWritable(1), new Text(pages.get(1)));
 
 		MapDriver<LongWritable, Text, LongWritable, PageMetaNodeWritable> driver = new MapDriver<LongWritable, Text, LongWritable, PageMetaNodeWritable>();
 		driver.withMapper(new JobParseMapper()).withInput(input1);
@@ -45,24 +49,10 @@ public class TestJobParseMapper {
 		Pair<LongWritable, PageMetaNodeWritable> output = driver
 				.run(true).get(0);
 		
-
-		// MapDriver<LongWritable, Text, Text, PageInfoWritable> driver = new
-		// MapDriver<LongWritable, Text, Text, PageInfoWritable>();
-		// driver.withMapper(new PageParseMapper()).withInput(new
-		// LongWritable(1),
-		// new Text(pages.get(0)));
-		//
-		// String titleExp = "AccessibleComputing";
-		// String idExp = "10";
-		// String linksExp = "";
-		//
-		// Pair<Text, PageInfoWritable> output = driver.run().get(0);
-		// String titleOut = output.getFirst().toString();
-		// String idOut = output.getSecond().getId();
-		// String linksOut = output.getSecond().getLinks();
-		//
-		// assertEquals(titleOut, titleExp);
-		// assertEquals(idOut, idExp);
-		// assertEquals(linksOut, linksExp);
+		PageMetaNodeWritable node = output.getSecond();
+		assertEquals(node.getId(), new VIntWritable(12));
+		assertEquals(node.getTitle(), new Text("Anarchism"));
+		assertNotNull(node.getOutLinks());
+		assertEquals(new VIntWritable(node.getOutLinks().getSize()), node.getOutCount());
 	}
 }

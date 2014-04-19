@@ -3,6 +3,7 @@ package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.io.FloatWritable;
@@ -10,13 +11,13 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.VIntWritable;
 
 public class PageMetaNodeWritable extends AbstractPageNodeWritable {
-	private Text title;
-	private TextArrayWritable outLinks;
+	private Text title = new Text();
+	private TextArrayWritable outLinks = new TextArrayWritable();
 
 	@Override
 	public String toString() {
 		return String
-				.format("ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %f",
+				.format("ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %s",
 						id, title, outLinks.getSize(), outCount, score);
 	}
 
@@ -34,7 +35,12 @@ public class PageMetaNodeWritable extends AbstractPageNodeWritable {
 		this.title = new Text(title);
 
 		// Out Links
-		Text[] outLinksArray = outLinks.toArray(new Text[] { new Text("") });
+		List<Text> temp = new ArrayList<Text>();
+		for (String ol : outLinks) {
+			temp.add(new Text(ol));
+		}
+
+		Text[] outLinksArray = temp.toArray(new Text[temp.size()]);
 		this.outLinks.set(outLinksArray);
 	}
 
