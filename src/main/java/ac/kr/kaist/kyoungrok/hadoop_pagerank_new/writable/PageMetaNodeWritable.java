@@ -13,6 +13,13 @@ public class PageMetaNodeWritable extends AbstractPageNodeWritable {
 	private Text title;
 	private TextArrayWritable outLinks;
 
+	@Override
+	public String toString() {
+		return String
+				.format("ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %f",
+						id, title, outLinks.getSize(), outCount, score);
+	}
+
 	public PageMetaNodeWritable() {
 		super();
 		this.title = new Text("");

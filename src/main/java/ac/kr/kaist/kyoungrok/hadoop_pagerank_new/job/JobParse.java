@@ -1,4 +1,4 @@
-package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver;
+package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job;
 
 import java.io.IOException;
 
@@ -8,6 +8,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 
 public class JobParse {

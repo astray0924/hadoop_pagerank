@@ -9,9 +9,9 @@ import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.io.Writable;
 
 public abstract class AbstractPageNodeWritable implements Writable {
-	private VIntWritable id;
-	private VIntWritable outCount;
-	private FloatWritable score;
+	protected VIntWritable id;
+	protected VIntWritable outCount;
+	protected FloatWritable score;
 
 	public AbstractPageNodeWritable() {
 		this.id = new VIntWritable();
