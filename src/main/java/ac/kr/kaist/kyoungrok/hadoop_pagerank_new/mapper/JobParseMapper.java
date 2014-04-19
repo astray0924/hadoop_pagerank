@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.WikiDumpParser;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
 
 public class JobParseMapper extends
-		Mapper<LongWritable, Text, LongWritable, PageMetaNodeWritable> {
+		Mapper<LongWritable, Text, Text, PageMetaNodeWritable> {
 	private WikiDumpParser parser;
 
 	@Override
@@ -35,7 +36,7 @@ public class JobParseMapper extends
 
 			PageMetaNodeWritable node = new PageMetaNodeWritable(id, title,
 					outLinks, outLinks.size(), 0.0f);
-			context.write(key, node);
+			context.write(node.getTitle(), node);
 		}
 	}
 

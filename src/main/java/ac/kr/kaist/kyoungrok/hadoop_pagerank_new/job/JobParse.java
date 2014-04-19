@@ -4,12 +4,19 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobParseMapper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.JobParseReducer;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
 
 public class JobParse {
 	public static boolean run(Configuration conf) throws IOException,
@@ -18,23 +25,28 @@ public class JobParse {
 		job.setJarByClass(PageRankDriver.class);
 
 		// Set Input Path
-		Path inputPath = PathHelper.getPathForName(PathHelper.INPUT_WIKI_DUMP);
-		FileInputFormat.addInputPath(job, inputPath);
+		Path inputPath = PathHelper.getPathForName("none"); // TODO 수정 필요
+		FileInputFormat.addInputPath(job, new Path(conf.get("global_input")));
 
 		// Set Output Path
-		Path outputPath = PathHelper.getPathForName(PathHelper.OUTPUT_PARSE);
-		FileOutputFormat.setOutputPath(job, outputPath);
+		Path outputPath = PathHelper
+				.getPathForName(PathHelper.PATH_NAME_OUTPUT_PARSE);
+		FileOutputFormat.setOutputPath(job, new Path(conf.get("global_output")));
 
 		// Mapper
-		// job.setMapperClass(cls);
-		// job.setMapOutputKeyClass(Text.class);
-		// job.setMapOutputValueClass(PageInfoWritable.class);
+		job.setMapperClass(JobParseMapper.class);
+		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputValueClass(PageMetaNodeWritable.class);
 
 		// Reducer
-		// job.setReducerClass(cls);
-		// job.setOutputKeyClass(theClass);
-		// job.setOutputValueClass(theClass);
-		// job.setOutputFormatClass(cls);
+		job.setReducerClass(JobParseReducer.class);
+
+		MultipleOutputs.addNamedOutput(job, "meta_nodes",
+				TextOutputFormat.class, Text.class, PageMetaNodeWritable.class);
+		MultipleOutputs.addNamedOutput(job, "titleidmap",
+				TextOutputFormat.class, Text.class, VIntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "idtitlemap",
+				TextOutputFormat.class, VIntWritable.class, Text.class);
 
 		return job.waitForCompletion(true);
 

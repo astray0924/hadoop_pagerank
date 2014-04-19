@@ -21,8 +21,9 @@ import org.junit.Test;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobParseMapper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
 
-public class TestJobParseMapper {
+public class JobParseTest {
 	private List<String> pages;
+	private Pair<Text, PageMetaNodeWritable> mapperOutput;
 
 	@Before
 	public void setUp() throws IOException {
@@ -38,21 +39,32 @@ public class TestJobParseMapper {
 	}
 
 	@Test
-	public void testValid() throws IOException {
+	public void testMapper() throws IOException {
 		// Case 1
 		Pair<LongWritable, Text> input1 = new Pair<LongWritable, Text>(
 				new LongWritable(1), new Text(pages.get(1)));
 
-		MapDriver<LongWritable, Text, LongWritable, PageMetaNodeWritable> driver = new MapDriver<LongWritable, Text, LongWritable, PageMetaNodeWritable>();
+		MapDriver<LongWritable, Text, Text, PageMetaNodeWritable> driver = new MapDriver<LongWritable, Text, Text, PageMetaNodeWritable>();
 		driver.withMapper(new JobParseMapper()).withInput(input1);
 
-		Pair<LongWritable, PageMetaNodeWritable> output = driver
-				.run(true).get(0);
-		
-		PageMetaNodeWritable node = output.getSecond();
+		mapperOutput = driver.run(true).get(0);
+
+		PageMetaNodeWritable node = mapperOutput.getSecond();
 		assertEquals(node.getId(), new VIntWritable(12));
+		assertEquals(mapperOutput.getFirst(), new Text("Anarchism"));
 		assertEquals(node.getTitle(), new Text("Anarchism"));
 		assertNotNull(node.getOutLinks());
-		assertEquals(new VIntWritable(node.getOutLinks().getSize()), node.getOutCount());
+		assertEquals(new VIntWritable(node.getOutLinks().getSize()),
+				node.getOutCount());
+	}
+
+	@Test
+	public void TestReducer() {
+		List<Pair<Text, List<PageMetaNodeWritable>>> inputs = new ArrayList<Pair<Text, List<PageMetaNodeWritable>>>();
+
+//		new ReduceDriver<Text, PageMetaNodeWritable, Text, PageMetaNodeWritable>()
+//				.withReducer(new JobParseReducer()).addInput(
+//						mapperOutput.getFirst(),
+//						new ArrayList<PageMetaNodeWritable>());
 	}
 }
