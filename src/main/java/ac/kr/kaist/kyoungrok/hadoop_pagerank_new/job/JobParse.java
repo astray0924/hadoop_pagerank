@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver;
@@ -43,11 +44,11 @@ public class JobParse {
 		job.setReducerClass(JobParseReducer.class);
 
 		MultipleOutputs.addNamedOutput(job, "metanodes",
-				TextOutputFormat.class, Text.class, PageMetaNodeWritable.class);
+				SequenceFileOutputFormat.class, Text.class, PageMetaNodeWritable.class);
 		MultipleOutputs.addNamedOutput(job, "titleidmap",
-				TextOutputFormat.class, Text.class, VIntWritable.class);
+				SequenceFileOutputFormat.class, Text.class, VIntWritable.class);
 		MultipleOutputs.addNamedOutput(job, "idtitlemap",
-				TextOutputFormat.class, VIntWritable.class, Text.class);
+				SequenceFileOutputFormat.class, VIntWritable.class, Text.class);
 		LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 
 		return job.waitForCompletion(true);
