@@ -9,6 +9,7 @@ import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
@@ -41,12 +42,13 @@ public class JobParse {
 		// Reducer
 		job.setReducerClass(JobParseReducer.class);
 
-		MultipleOutputs.addNamedOutput(job, "meta_nodes",
+		MultipleOutputs.addNamedOutput(job, "metanodes",
 				TextOutputFormat.class, Text.class, PageMetaNodeWritable.class);
 		MultipleOutputs.addNamedOutput(job, "titleidmap",
 				TextOutputFormat.class, Text.class, VIntWritable.class);
 		MultipleOutputs.addNamedOutput(job, "idtitlemap",
 				TextOutputFormat.class, VIntWritable.class, Text.class);
+		LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 
 		return job.waitForCompletion(true);
 

@@ -17,7 +17,7 @@ public class PageMetaNodeWritable extends AbstractPageNodeWritable {
 	@Override
 	public String toString() {
 		return String
-				.format("ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %s",
+				.format("{ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %s}",
 						id, title, outLinks.getSize(), outCount, score);
 	}
 

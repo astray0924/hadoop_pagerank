@@ -30,7 +30,7 @@ public class JobParseReducer extends
 			Context context) throws IOException, InterruptedException {
 		PageMetaNodeWritable node = nodes.iterator().next();
 
-		mos.write("meta_nodes", title, node, "meta_nodes/meta_nodes");
+		mos.write("metanodes", title, node, "metanodes/metanodes");
 		mos.write("titleidmap", title, node.getId(), "titleidmap/titleidmap");
 		mos.write("idtitlemap", node.getId(), title, "idtitlemap/idtitlemap");
 	}
