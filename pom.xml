@@ -43,7 +43,7 @@
 				<version>2.4</version>
 				<configuration>
 					<descriptors>
-						<descriptor>src/main/assembly/hadoop-job.xml</descriptor>
+						<descriptor>src/main/resources/assembly/hadoop-job.xml</descriptor>
 					</descriptors>
 					<archive>
 						<manifest>
