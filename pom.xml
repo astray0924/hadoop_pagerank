@@ -47,7 +47,7 @@
 					</descriptors>
 					<archive>
 						<manifest>
-							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank.PageRankDriver</mainClass>
+							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
