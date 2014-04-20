@@ -27,13 +27,13 @@ public class JobParse {
 		job.setJarByClass(PageRankDriver.class);
 
 		// Set Input Path
-		Path inputPath = PathHelper.getPathForName("none"); // TODO 수정 필요
-		FileInputFormat.addInputPath(job, new Path(conf.get("global_input")));
+		Path inputPath = PathHelper.getPathForName(conf.get("wikidump_path")); // TODO 수정 필요
+		FileInputFormat.addInputPath(job, inputPath);
 
 		// Set Output Path
 		Path outputPath = PathHelper.getPathForName(PathHelper.NAME_PARSE);
 		FileOutputFormat
-				.setOutputPath(job, new Path(conf.get("global_output")));
+				.setOutputPath(job, outputPath);
 
 		// Mapper
 		job.setMapperClass(JobParseMapper.class);

@@ -9,7 +9,7 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobParse;
 
 public class PageRankDriver extends Configured implements Tool {
 	private enum JobName {
-		ALL, PARSE, DEGREE, GRAPH, RANK, LIST
+		PARSE, DEGREE, GRAPH, RANK, LIST
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -25,27 +25,32 @@ public class PageRankDriver extends Configured implements Tool {
 			System.err
 					.printf("Usage: %s [generic options] <wikidump path> <output path> <start job(optional)>\n",
 							getClass().getSimpleName());
+			
+			System.err.println("<start job>: parse, degree, graph, rank, list");
+			
 			ToolRunner.printGenericCommandUsage(System.err);
 			return -1;
 		}
 
 		// Configuration
 		Configuration conf = getConf();
-		conf.addResource(getClass().getResourceAsStream("~/main/resources/settings.xml"));
 		conf.set("wikidump_path", args[0]);
 		conf.set("output_path", args[1]);
 
 		// Job selection
-		JobName startJob = JobName.ALL;
+		JobName startJob = JobName.PARSE;
 		if (args.length >= 3) {
-			startJob = JobName.valueOf(args[2]);
+			try {
+				startJob = JobName.valueOf(args[2].toUpperCase());
+			} catch (IllegalArgumentException e) {
+
+			}
 		}
 
 		switch (startJob) {
-		case ALL:
 		case PARSE:
 			// Parse
-//			JobParse.run(conf);
+			// JobParse.run(conf);
 			System.out.println("parse");
 		case DEGREE:
 			System.out.println("degree");
