@@ -18,7 +18,7 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobParseMapper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.JobParseReducer;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
 public class JobParse {
 	public static boolean run(Configuration conf) throws IOException,
@@ -38,14 +38,14 @@ public class JobParse {
 		// Mapper
 		job.setMapperClass(JobParseMapper.class);
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(PageMetaNodeWritable.class);
+		job.setMapOutputValueClass(PageMetaNode.class);
 
 		// Reducer
 		job.setReducerClass(JobParseReducer.class);
 
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_META_NODE,
 				SequenceFileOutputFormat.class, Text.class,
-				PageMetaNodeWritable.class);
+				PageMetaNode.class);
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_TITLE_ID_MAP,
 				SequenceFileOutputFormat.class, Text.class, VIntWritable.class);
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_ID_TITLE_MAP,

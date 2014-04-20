@@ -7,6 +7,7 @@ import org.apache.hadoop.io.Text;
 public class TextArrayWritable extends ArrayWritable {
 	public TextArrayWritable() {
 		super(Text.class);
+		set(new Text[] {});
 	}
 
 	public int getSize() {

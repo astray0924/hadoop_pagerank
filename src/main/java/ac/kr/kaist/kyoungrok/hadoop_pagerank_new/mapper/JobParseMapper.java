@@ -9,10 +9,10 @@ import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.WikiDumpParser;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
 public class JobParseMapper extends
-		Mapper<LongWritable, Text, Text, PageMetaNodeWritable> {
+		Mapper<LongWritable, Text, Text, PageMetaNode> {
 	private WikiDumpParser parser;
 
 	@Override
@@ -34,7 +34,7 @@ public class JobParseMapper extends
 			int id = parser.getId();
 			List<String> outLinks = parser.getSanitizedLinks();
 
-			PageMetaNodeWritable node = new PageMetaNodeWritable(id, title,
+			PageMetaNode node = new PageMetaNode(id, title,
 					outLinks, outLinks.size(), 0.0f);
 			context.write(node.getTitle(), node);
 		}

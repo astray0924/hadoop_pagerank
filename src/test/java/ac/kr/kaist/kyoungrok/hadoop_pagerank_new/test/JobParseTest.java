@@ -19,11 +19,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobParseMapper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
 public class JobParseTest {
 	private List<String> pages;
-	private Pair<Text, PageMetaNodeWritable> mapperOutput;
+	private Pair<Text, PageMetaNode> mapperOutput;
 
 	@Before
 	public void setUp() throws IOException {
@@ -44,12 +44,12 @@ public class JobParseTest {
 		Pair<LongWritable, Text> input1 = new Pair<LongWritable, Text>(
 				new LongWritable(1), new Text(pages.get(1)));
 
-		MapDriver<LongWritable, Text, Text, PageMetaNodeWritable> driver = new MapDriver<LongWritable, Text, Text, PageMetaNodeWritable>();
+		MapDriver<LongWritable, Text, Text, PageMetaNode> driver = new MapDriver<LongWritable, Text, Text, PageMetaNode>();
 		driver.withMapper(new JobParseMapper()).withInput(input1);
 
 		mapperOutput = driver.run(true).get(0);
 
-		PageMetaNodeWritable node = mapperOutput.getSecond();
+		PageMetaNode node = mapperOutput.getSecond();
 		assertEquals(node.getId(), new VIntWritable(12));
 		assertEquals(mapperOutput.getFirst(), new Text("Anarchism"));
 		assertEquals(node.getTitle(), new Text("Anarchism"));
@@ -60,7 +60,7 @@ public class JobParseTest {
 
 	@Test
 	public void TestReducer() {
-		List<Pair<Text, List<PageMetaNodeWritable>>> inputs = new ArrayList<Pair<Text, List<PageMetaNodeWritable>>>();
+		List<Pair<Text, List<PageMetaNode>>> inputs = new ArrayList<Pair<Text, List<PageMetaNode>>>();
 
 //		new ReduceDriver<Text, PageMetaNodeWritable, Text, PageMetaNodeWritable>()
 //				.withReducer(new JobParseReducer()).addInput(

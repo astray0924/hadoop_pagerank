@@ -6,17 +6,17 @@ import java.util.List;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeArrayWritable;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
 public class JobGraphReducer
 		extends
-		Reducer<PageRankNodeWritable, PageRankNodeWritable, PageRankNodeWritable, PageRankNodeArrayWritable> {
+		Reducer<PageRankNode, PageRankNode, PageRankNode, PageRankNodeArrayWritable> {
 
 	@Override
-	public void reduce(PageRankNodeWritable node,
-			Iterable<PageRankNodeWritable> inNodes, Context context) {
-		List<PageRankNodeWritable> ins = new ArrayList<PageRankNodeWritable>();
-		for (PageRankNodeWritable inNode : inNodes) {
+	public void reduce(PageRankNode node,
+			Iterable<PageRankNode> inNodes, Context context) {
+		List<PageRankNode> ins = new ArrayList<PageRankNode>();
+		for (PageRankNode inNode : inNodes) {
 			ins.add(inNode);
 		}
 		

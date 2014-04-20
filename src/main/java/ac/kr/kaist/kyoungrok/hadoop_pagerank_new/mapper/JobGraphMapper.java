@@ -17,31 +17,30 @@ import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
-public class JobGraphMapper
-		extends
-		Mapper<Text, PageMetaNodeWritable, PageRankNodeWritable, PageRankNodeWritable> {
+public class JobGraphMapper extends
+		Mapper<Text, PageMetaNode, PageRankNode, PageRankNode> {
 	private Map<Text, VIntWritable> index;
 	private FloatWritable initialScore;
 
 	@Override
 	protected void setup(Context context) throws IOException {
 		if (index == null) {
-			buildIndexFromCache(context);			
+			buildIndexFromCache(context);
 		}
 
 		// set the initial score
-		this.initialScore = new FloatWritable(1 / index.size());
+		this.initialScore = new FloatWritable((float) 1 / index.size());
 	}
 
 	private void buildIndexFromCache(Context context) throws IOException {
 		HashMap<Text, VIntWritable> index = new HashMap<Text, VIntWritable>();
 		URI[] cacheFiles = context.getCacheFiles();
-				
+
 		if (cacheFiles == null || cacheFiles.length == 0) {
 			throw new FileNotFoundException("title-id index file not found.");
 		}
@@ -65,7 +64,7 @@ public class JobGraphMapper
 				reader.close();
 			}
 		}
-		
+
 		setIndex(index);
 	}
 
@@ -79,8 +78,8 @@ public class JobGraphMapper
 	}
 
 	@Override
-	public void map(Text nodeTitle, PageMetaNodeWritable metaNode,
-			Context context) throws IOException, InterruptedException {
+	public void map(Text nodeTitle, PageMetaNode metaNode, Context context)
+			throws IOException, InterruptedException {
 		List<VIntWritable> links = new ArrayList<VIntWritable>();
 
 		TextArrayWritable outLinks = metaNode.getOutLinks();
@@ -93,12 +92,12 @@ public class JobGraphMapper
 		}
 
 		for (VIntWritable l : links) {
-			VIntArrayWritable inLinks = new VIntArrayWritable(
-					new VIntWritable[] { l });
+			VIntArrayWritable inLinks = new VIntArrayWritable();
+			inLinks.set(new VIntWritable[] { metaNode.getId() });
 
-			PageRankNodeWritable node = new PageRankNodeWritable(l,
-					new VIntWritable(-1), inLinks, initialScore);
-			PageRankNodeWritable inNode = new PageRankNodeWritable(metaNode);
+			PageRankNode node = new PageRankNode(l, new VIntWritable(-1),
+					inLinks, initialScore);
+			PageRankNode inNode = PageRankNode.fromPageMetaNode(metaNode);
 			inNode.setScore(initialScore);
 
 			context.write(node, inNode);
