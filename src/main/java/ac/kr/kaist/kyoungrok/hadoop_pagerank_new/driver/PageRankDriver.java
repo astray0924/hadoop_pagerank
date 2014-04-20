@@ -27,6 +27,7 @@ public class PageRankDriver extends Configured implements Tool {
 		
 		// Configuration
 		Configuration conf = getConf();
+		conf.addResource("settings.xml");
 		conf.set("global_input", args[0]);
 		conf.set("global_output", args[1]);
 		
