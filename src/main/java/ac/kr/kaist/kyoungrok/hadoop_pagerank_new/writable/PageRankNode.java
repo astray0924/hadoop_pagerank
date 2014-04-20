@@ -9,29 +9,40 @@ import java.util.List;
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.VIntWritable;
 
-public class PageRankNodeWritable extends AbstractPageNodeWritableComparable {
+public class PageRankNode extends AbstractPageNodeWritableComparable {
 	private VIntArrayWritable inLinks = new VIntArrayWritable();
 
-	public PageRankNodeWritable() {
+	public String toString() {
+		return String.format(
+				"RANK: {ID: %s, OUTCOUNT: %s, INCOUNT: %s, SCORE: %s}", id,
+				outCount, inLinks.getSize(), score);
+	}
+
+	public PageRankNode() {
 		super();
 		this.inLinks = new VIntArrayWritable();
 	}
 
-	public PageRankNodeWritable(VIntWritable id, VIntWritable outCount,
+	public PageRankNode(VIntWritable id, VIntWritable outCount,
 			VIntArrayWritable inLinks, FloatWritable score) {
 		super(id, outCount, score);
 		this.inLinks = inLinks;
 	}
 
-	public PageRankNodeWritable(Integer id, Integer outCount,
-			List<Integer> inLinks, Float score) {
+	public PageRankNode(Integer id, Integer outCount, List<Integer> inLinks,
+			Float score) {
 		super(id, outCount, score);
-		VIntWritable[] inLinksArray = inLinks
-				.toArray(new VIntWritable[] { new VIntWritable(0) });
+
+		List<VIntWritable> temp = new ArrayList<VIntWritable>();
+		for (Integer in : inLinks) {
+			temp.add(new VIntWritable(in));
+		}
+		VIntWritable[] inLinksArray = temp
+				.toArray(new VIntWritable[temp.size()]);
 		this.inLinks.set(inLinksArray);
 	}
 
-	public PageRankNodeWritable(PageMetaNodeWritable metaNode) {
+	public PageRankNode(PageMetaNode metaNode) {
 		this(metaNode.getId(), metaNode.outCount, new VIntArrayWritable(),
 				metaNode.getScore());
 	}

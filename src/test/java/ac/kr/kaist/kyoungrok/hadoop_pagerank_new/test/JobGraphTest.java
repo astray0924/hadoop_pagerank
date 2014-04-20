@@ -14,14 +14,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobGraphMapper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
 public class JobGraphTest {
-	private static Map<Text, PageMetaNodeWritable> graph;
+	private static Map<Text, PageMetaNode> graph;
 	static {
-		graph = new HashMap<Text, PageMetaNodeWritable>();
-		PageMetaNodeWritable A = new PageMetaNodeWritable(1, "A",
+		graph = new HashMap<Text, PageMetaNode>();
+		PageMetaNode A = new PageMetaNode(1, "A",
 				Arrays.asList("B", "C", "E"), 3, 0.0f);
 		// PageMetaNodeWritable B = new PageMetaNodeWritable(2, "B",
 		// Arrays.asList("C"), 1, 0.0f);
@@ -51,17 +51,17 @@ public class JobGraphTest {
 
 	@Test
 	public void testSingleNode() throws IOException {
-		PageMetaNodeWritable A = graph.get("A");
+		PageMetaNode A = graph.get("A");
 		JobGraphMapper mapper = new JobGraphMapper();
 		mapper.setIndex(index);
 
-		MapDriver<Text, PageMetaNodeWritable, PageRankNodeWritable, PageRankNodeWritable> driver = new MapDriver<Text, PageMetaNodeWritable, PageRankNodeWritable, PageRankNodeWritable>();
+		MapDriver<Text, PageMetaNode, PageRankNode, PageRankNode> driver = new MapDriver<Text, PageMetaNode, PageRankNode, PageRankNode>();
 		driver.withMapper(mapper).withInput(A.getTitle(), A);
 
-		List<Pair<PageRankNodeWritable, PageRankNodeWritable>> outputs = driver
+		List<Pair<PageRankNode, PageRankNode>> outputs = driver
 				.run();
 		
-		for (Pair<PageRankNodeWritable, PageRankNodeWritable> pair : outputs) {
+		for (Pair<PageRankNode, PageRankNode> pair : outputs) {
 			System.out.print(pair.getFirst());
 			System.out.print("\t");
 			System.out.print(pair.getFirst());

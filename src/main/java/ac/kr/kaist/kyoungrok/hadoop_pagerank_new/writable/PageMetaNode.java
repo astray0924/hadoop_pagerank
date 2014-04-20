@@ -10,24 +10,24 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.VIntWritable;
 
-public class PageMetaNodeWritable extends AbstractPageNodeWritableComparable {
+public class PageMetaNode extends AbstractPageNodeWritableComparable {
 	private Text title = new Text();
 	private TextArrayWritable outLinks = new TextArrayWritable();
 
 	@Override
 	public String toString() {
 		return String
-				.format("{ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %s}",
+				.format("META: {ID: %s, TITLE: %s, OUTLINKS SIZE: %s, OUTCOUNT: %s, SCORE: %s}",
 						id, title, outLinks.getSize(), outCount, score);
 	}
 
-	public PageMetaNodeWritable() {
+	public PageMetaNode() {
 		super();
 		this.title = new Text("");
 		this.outLinks = new TextArrayWritable();
 	}
 
-	public PageMetaNodeWritable(Integer id, String title,
+	public PageMetaNode(Integer id, String title,
 			List<String> outLinks, Integer outCount, Float score) {
 		super(id, outCount, score);
 
@@ -44,7 +44,7 @@ public class PageMetaNodeWritable extends AbstractPageNodeWritableComparable {
 		this.outLinks.set(outLinksArray);
 	}
 
-	public PageMetaNodeWritable(VIntWritable id, Text title,
+	public PageMetaNode(VIntWritable id, Text title,
 			VIntWritable outCount, TextArrayWritable outLinks,
 			FloatWritable score) {
 		super(id, outCount, score);

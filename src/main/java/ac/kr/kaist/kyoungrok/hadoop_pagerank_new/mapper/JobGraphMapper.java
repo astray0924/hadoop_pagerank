@@ -17,14 +17,14 @@ import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
 public class JobGraphMapper
 		extends
-		Mapper<Text, PageMetaNodeWritable, PageRankNodeWritable, PageRankNodeWritable> {
+		Mapper<Text, PageMetaNode, PageRankNode, PageRankNode> {
 	private Map<Text, VIntWritable> index;
 	private FloatWritable initialScore;
 
@@ -79,7 +79,7 @@ public class JobGraphMapper
 	}
 
 	@Override
-	public void map(Text nodeTitle, PageMetaNodeWritable metaNode,
+	public void map(Text nodeTitle, PageMetaNode metaNode,
 			Context context) throws IOException, InterruptedException {
 		List<VIntWritable> links = new ArrayList<VIntWritable>();
 
@@ -96,9 +96,9 @@ public class JobGraphMapper
 			VIntArrayWritable inLinks = new VIntArrayWritable(
 					new VIntWritable[] { l });
 
-			PageRankNodeWritable node = new PageRankNodeWritable(l,
+			PageRankNode node = new PageRankNode(l,
 					new VIntWritable(-1), inLinks, initialScore);
-			PageRankNodeWritable inNode = new PageRankNodeWritable(metaNode);
+			PageRankNode inNode = new PageRankNode(metaNode);
 			inNode.setScore(initialScore);
 
 			context.write(node, inNode);

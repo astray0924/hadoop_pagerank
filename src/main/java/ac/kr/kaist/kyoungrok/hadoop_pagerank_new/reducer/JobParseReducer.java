@@ -7,10 +7,10 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
 public class JobParseReducer extends
-		Reducer<Text, PageMetaNodeWritable, Text, PageMetaNodeWritable> {
+		Reducer<Text, PageMetaNode, Text, PageMetaNode> {
 	@SuppressWarnings("rawtypes")
 	private MultipleOutputs mos;
 
@@ -27,9 +27,9 @@ public class JobParseReducer extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public void reduce(Text title, Iterable<PageMetaNodeWritable> nodes,
+	public void reduce(Text title, Iterable<PageMetaNode> nodes,
 			Context context) throws IOException, InterruptedException {
-		PageMetaNodeWritable node = nodes.iterator().next();
+		PageMetaNode node = nodes.iterator().next();
 
 		mos.write(PathHelper.NAME_META_NODE, title, node, String.format(
 				"%s/%s", PathHelper.NAME_META_NODE, PathHelper.NAME_META_NODE));
