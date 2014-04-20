@@ -23,6 +23,7 @@ public class TestFileSystem {
 	@Before
 	public void setUp() throws IOException {
 		conf = new Configuration();
+		conf.addResource(getClass().getResourceAsStream("/settings.xml"));
 
 		fsDefault = FileSystem.get(conf);
 		fsS3 = FileSystem.get(URI.create(s3), conf);
@@ -38,19 +39,14 @@ public class TestFileSystem {
 		System.out.println(fsHdfs.getScheme());
 	}
 
-	// Configuration conf = new Configuration();
-	// conf.addResource("configuration-1.xml");
-	// assertThat(conf.get("color"), is("yellow"));
-	// assertThat(conf.getInt("size", 0), is(10));
-	// assertThat(conf.get("breadth", "wide"), is("wide"));
-	
 	@Test
 	public void testPath() {
-//		System.out.println(fsS3.setWorkingDirectory(new_dir););
+		fsS3.setWorkingDirectory(new Path(s3));
+		System.out.println(fsS3.getWorkingDirectory());
 		System.out.println(fsHdfs.getWorkingDirectory());
 		fsHdfs.setWorkingDirectory(new Path("./test"));
 		System.out.println(fsHdfs.getWorkingDirectory());
-		
-//		System.out.println(fsLocal.getWorkingDirectory());
+
+		// System.out.println(fsLocal.getWorkingDirectory());
 	}
 }
