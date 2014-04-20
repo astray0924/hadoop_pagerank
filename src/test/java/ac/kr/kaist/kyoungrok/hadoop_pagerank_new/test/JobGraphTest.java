@@ -18,8 +18,11 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNodeWritable;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeWritable;
 
 public class JobGraphTest {
-	private static Map<Text, PageMetaNodeWritable> graph;
-	static {
+	private Map<Text, PageMetaNodeWritable> graph;
+	private Map<Text, VIntWritable> index;
+
+	@Before
+	public void setUp() {
 		graph = new HashMap<Text, PageMetaNodeWritable>();
 		PageMetaNodeWritable A = new PageMetaNodeWritable(1, "A",
 				Arrays.asList("B", "C", "E"), 3, 0.0f);
@@ -32,10 +35,7 @@ public class JobGraphTest {
 		// PageMetaNodeWritable E = new PageMetaNodeWritable(5, "E",
 		// Arrays.asList("D"), 1, 0.0f);
 		graph.put(A.getTitle(), A);
-	}
 
-	private static Map<Text, VIntWritable> index;
-	static {
 		index = new HashMap<Text, VIntWritable>();
 		index.put(new Text("A"), new VIntWritable(1));
 		index.put(new Text("B"), new VIntWritable(2));
@@ -44,14 +44,9 @@ public class JobGraphTest {
 		index.put(new Text("E"), new VIntWritable(5));
 	}
 
-	@Before
-	public void setUp() {
-
-	}
-
 	@Test
 	public void testSingleNode() throws IOException {
-		PageMetaNodeWritable A = graph.get("A");
+		PageMetaNodeWritable A = graph.get(new Text("A"));
 		JobGraphMapper mapper = new JobGraphMapper();
 		mapper.setIndex(index);
 
@@ -60,7 +55,7 @@ public class JobGraphTest {
 
 		List<Pair<PageRankNodeWritable, PageRankNodeWritable>> outputs = driver
 				.run();
-		
+
 		for (Pair<PageRankNodeWritable, PageRankNodeWritable> pair : outputs) {
 			System.out.print(pair.getFirst());
 			System.out.print("\t");
