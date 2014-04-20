@@ -3,6 +3,7 @@ package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.io.FloatWritable;
@@ -28,6 +29,11 @@ public class PageRankNodeWritable extends AbstractPageNodeWritableComparable {
 		VIntWritable[] inLinksArray = inLinks
 				.toArray(new VIntWritable[] { new VIntWritable(0) });
 		this.inLinks.set(inLinksArray);
+	}
+
+	public PageRankNodeWritable(PageMetaNodeWritable metaNode) {
+		this(metaNode.getId(), metaNode.outCount, new VIntArrayWritable(),
+				metaNode.getScore());
 	}
 
 	public VIntArrayWritable getInLinks() {

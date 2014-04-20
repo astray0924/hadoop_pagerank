@@ -4,13 +4,13 @@ package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable;
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.Writable;
 
-public class VIntArrayWritable extends ArrayWritable {
-	public VIntArrayWritable() {
-		super(VIntArrayWritable.class);
+public class PageRankNodeArrayWritable extends ArrayWritable {
+	public PageRankNodeArrayWritable() {
+		super(PageRankNodeArrayWritable.class);
 	}
 	
-	public VIntArrayWritable(Writable[] values) {
-		super(VIntArrayWritable.class, values);
+	public PageRankNodeArrayWritable(Writable[] values) {
+		super(PageRankNodeArrayWritable.class, values);
 	}
 
 	public int getSize() {
