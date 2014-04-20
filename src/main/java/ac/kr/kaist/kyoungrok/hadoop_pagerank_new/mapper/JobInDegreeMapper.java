@@ -16,7 +16,7 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 
-public class JobOutDegreeMapper extends
+public class JobInDegreeMapper extends
 		Mapper<Text, PageMetaNode, VIntWritable, VIntWritable> {
 	private Map<Text, VIntWritable> index;
 
@@ -69,7 +69,7 @@ public class JobOutDegreeMapper extends
 
 			if (index.containsKey(linkTitle)) {
 				VIntWritable linkId = index.get(linkTitle);
-				context.write(id, linkId);
+				context.write(linkId, id);
 			}
 		}
 	}

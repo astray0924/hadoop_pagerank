@@ -27,13 +27,11 @@ public class JobParse {
 		job.setJarByClass(PageRankDriver.class);
 
 		// Set Input Path
-		Path inputPath = PathHelper.getPathForName(conf.get("wikidump_path")); // TODO 수정 필요
-		FileInputFormat.addInputPath(job, inputPath);
+		FileInputFormat.addInputPath(job, new Path(conf.get("wikidump_path")));
 
 		// Set Output Path
-		Path outputPath = PathHelper.getPathForName(PathHelper.NAME_PARSE);
-		FileOutputFormat
-				.setOutputPath(job, outputPath);
+		Path outputPath = PathHelper.getPathForName(PathHelper.NAME_PARSE, conf);
+		FileOutputFormat.setOutputPath(job, outputPath);
 
 		// Mapper
 		job.setMapperClass(JobParseMapper.class);
@@ -44,8 +42,7 @@ public class JobParse {
 		job.setReducerClass(JobParseReducer.class);
 
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_META_NODE,
-				SequenceFileOutputFormat.class, Text.class,
-				PageMetaNode.class);
+				SequenceFileOutputFormat.class, Text.class, PageMetaNode.class);
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_TITLE_ID_MAP,
 				SequenceFileOutputFormat.class, Text.class, VIntWritable.class);
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_ID_TITLE_MAP,
