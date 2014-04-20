@@ -19,7 +19,7 @@ public class PathHelper {
 	
 	private static final Path emptyPath = new Path(" ");
 
-	public static Path getPathForName(String pathName, Configuration conf) {
+	public static Path getPathForName(String pathName, Configuration conf) {	
 		Path basePath = new Path(conf.get("output_path"));
 		PathName pName = PathName.NONE;
 

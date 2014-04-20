@@ -22,7 +22,9 @@ public class JobOutDegreeMapper extends
 
 	@Override
 	protected void setup(Context context) throws IOException {
-		readIndexFromCache(context);
+		if (index == null) {
+			readIndexFromCache(context);
+		}
 
 		if (index == null) {
 			throw new IllegalStateException("title-id index is missing!");
