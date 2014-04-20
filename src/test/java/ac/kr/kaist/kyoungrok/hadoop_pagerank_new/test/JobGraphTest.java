@@ -72,12 +72,12 @@ public class JobGraphTest {
 		JobGraphMapper mapper = new JobGraphMapper();
 		mapper.setIndex(index);
 
-		MapDriver<Text, PageMetaNode, PageRankNode, PageRankNode> driver = new MapDriver<Text, PageMetaNode, PageRankNode, PageRankNode>();
+		MapDriver<Text, PageMetaNode, VIntWritable, PageRankNode> driver = new MapDriver<Text, PageMetaNode, VIntWritable, PageRankNode>();
 		driver.withMapper(mapper).withInput(node.getTitle(), node);
 
-		List<Pair<PageRankNode, PageRankNode>> outputs = driver.run();
+		List<Pair<VIntWritable, PageRankNode>> outputs = driver.run();
 
-		for (Pair<PageRankNode, PageRankNode> pair : outputs) {
+		for (Pair<VIntWritable, PageRankNode> pair : outputs) {
 			System.out.print(pair.getFirst());
 			System.out.print("\t");
 			System.out.print(pair.getSecond());

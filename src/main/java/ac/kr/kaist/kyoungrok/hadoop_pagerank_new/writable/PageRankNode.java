@@ -4,7 +4,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,9 +14,11 @@ public class PageRankNode extends AbstractPageNodeWritableComparable {
 	private VIntArrayWritable inLinks = new VIntArrayWritable();
 
 	public String toString() {
-		return String.format(
-				"RANK: {ID: %s, OUTCOUNT: %s, INLINKS: %s, INCOUNT: %s, SCORE: %s}", id,
-				outCount, StringUtils.join(inLinks.toStrings(), ","), inLinks.getSize(), score);
+		return String
+				.format("RANK: {ID: %s, OUTCOUNT: %s, INLINKS: %s, INCOUNT: %s, SCORE: %s}",
+						id, outCount,
+						StringUtils.join(inLinks.toStrings(), ","),
+						inLinks.getSize(), score);
 	}
 
 	public PageRankNode() {
@@ -45,10 +46,14 @@ public class PageRankNode extends AbstractPageNodeWritableComparable {
 	}
 
 	public static PageRankNode fromPageMetaNode(PageMetaNode metaNode) {
-		VIntWritable nullNode = new VIntWritable(0);
-
 		return new PageRankNode(metaNode.getId(), metaNode.outCount,
 				new VIntArrayWritable(), metaNode.getScore());
+	}
+
+	public void set(VIntWritable id, VIntWritable outCount,
+			VIntArrayWritable inLinks, FloatWritable score) {
+		super.set(id, outCount, score);
+		this.inLinks = inLinks;
 	}
 
 	public VIntArrayWritable getInLinks() {

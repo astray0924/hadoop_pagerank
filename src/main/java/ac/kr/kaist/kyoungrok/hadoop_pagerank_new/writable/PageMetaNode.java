@@ -52,6 +52,13 @@ public class PageMetaNode extends AbstractPageNodeWritableComparable {
 		this.title = title;
 		this.outLinks = outLinks;
 	}
+	
+	public void set(VIntWritable id, Text title, VIntWritable outCount,
+			TextArrayWritable outLinks, FloatWritable score) {
+		super.set(id, outCount, score);
+		this.title = title;
+		this.outLinks = outLinks;
+	}
 
 	public Text getTitle() {
 		return title;

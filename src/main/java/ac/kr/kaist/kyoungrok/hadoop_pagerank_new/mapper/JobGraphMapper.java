@@ -3,9 +3,7 @@ package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.fs.FileSystem;
@@ -19,11 +17,10 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
 public class JobGraphMapper extends
-		Mapper<Text, PageMetaNode, PageRankNode, PageRankNode> {
+		Mapper<Text, PageMetaNode, VIntWritable, PageRankNode> {
 	private Map<Text, VIntWritable> index;
 	private FloatWritable initialScore;
 
@@ -80,27 +77,18 @@ public class JobGraphMapper extends
 	@Override
 	public void map(Text nodeTitle, PageMetaNode metaNode, Context context)
 			throws IOException, InterruptedException {
-		List<VIntWritable> links = new ArrayList<VIntWritable>();
-
-		TextArrayWritable outLinks = metaNode.getOutLinks();
-		for (Writable t : outLinks.get()) {
-			Text linkTitle = (Text) t;
-			if (index.containsKey(linkTitle)) {
-				VIntWritable linkId = index.get(linkTitle);
-				links.add(linkId);
+		PageRankNode node = new PageRankNode();
+		for (Writable l : metaNode.getOutLinks().get()) {
+			Text outTitle = (Text) l;
+			if (index.containsKey(outTitle)) {
+				VIntWritable outId = index.get(outTitle);
+				VIntArrayWritable inLinks = new VIntArrayWritable();
+				inLinks.set(new VIntWritable[]{metaNode.getId()});
+				
+				node.set(outId, new VIntWritable(-1), inLinks, initialScore);					
 			}
+			
 		}
 
-		for (VIntWritable l : links) {
-			VIntArrayWritable inLinks = new VIntArrayWritable();
-			inLinks.set(new VIntWritable[] { metaNode.getId() });
-
-			PageRankNode node = new PageRankNode(l, new VIntWritable(-1),
-					inLinks, initialScore);
-			PageRankNode inNode = PageRankNode.fromPageMetaNode(metaNode);
-			inNode.setScore(initialScore);
-
-			context.write(node, inNode);
-		}
 	}
 }

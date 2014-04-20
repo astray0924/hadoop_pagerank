@@ -34,6 +34,12 @@ public abstract class AbstractPageNodeWritableComparable implements
 		this.score = new FloatWritable(score);
 	}
 
+	protected void set(VIntWritable id, VIntWritable outCount, FloatWritable score) {
+		this.id = id;
+		this.outCount = outCount;
+		this.score = score;
+	}
+
 	public VIntWritable getId() {
 		return id;
 	}
