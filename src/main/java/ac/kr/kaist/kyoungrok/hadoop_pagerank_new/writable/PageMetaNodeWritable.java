@@ -10,7 +10,7 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.VIntWritable;
 
-public class PageMetaNodeWritable extends AbstractPageNodeWritable {
+public class PageMetaNodeWritable extends AbstractPageNodeWritableComparable {
 	private Text title = new Text();
 	private TextArrayWritable outLinks = new TextArrayWritable();
 

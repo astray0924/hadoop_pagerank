@@ -31,9 +31,9 @@ public class JobParse {
 		FileInputFormat.addInputPath(job, new Path(conf.get("global_input")));
 
 		// Set Output Path
-		Path outputPath = PathHelper
-				.getPathForName(PathHelper.PATH_NAME_OUTPUT_PARSE);
-		FileOutputFormat.setOutputPath(job, new Path(conf.get("global_output")));
+		Path outputPath = PathHelper.getPathForName(PathHelper.NAME_PARSE);
+		FileOutputFormat
+				.setOutputPath(job, new Path(conf.get("global_output")));
 
 		// Mapper
 		job.setMapperClass(JobParseMapper.class);
@@ -43,11 +43,12 @@ public class JobParse {
 		// Reducer
 		job.setReducerClass(JobParseReducer.class);
 
-		MultipleOutputs.addNamedOutput(job, "metanodes",
-				SequenceFileOutputFormat.class, Text.class, PageMetaNodeWritable.class);
-		MultipleOutputs.addNamedOutput(job, "titleidmap",
+		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_META_NODE,
+				SequenceFileOutputFormat.class, Text.class,
+				PageMetaNodeWritable.class);
+		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_TITLE_ID_MAP,
 				SequenceFileOutputFormat.class, Text.class, VIntWritable.class);
-		MultipleOutputs.addNamedOutput(job, "idtitlemap",
+		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_ID_TITLE_MAP,
 				SequenceFileOutputFormat.class, VIntWritable.class, Text.class);
 		LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 
