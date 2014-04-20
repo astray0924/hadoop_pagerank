@@ -21,7 +21,7 @@ import org.junit.Test;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobParseMapper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
-public class JobParseTest {
+public class TestJobParse {
 	private List<String> pages;
 	private Pair<Text, PageMetaNode> mapperOutput;
 

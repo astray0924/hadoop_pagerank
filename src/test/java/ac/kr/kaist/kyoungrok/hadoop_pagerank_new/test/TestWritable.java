@@ -13,7 +13,7 @@ import org.junit.Test;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
-public class WritableTest {
+public class TestWritable {
 	public static byte[] serialize(Writable writable) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DataOutputStream dataOut = new DataOutputStream(out);

@@ -19,7 +19,7 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobGraphMapper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
-public class JobGraphTest {
+public class TestJobGraph {
 	private static Map<Text, PageMetaNode> graph;
 	private static Map<Text, VIntWritable> index;
 
