@@ -8,21 +8,21 @@ import java.util.List;
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.VIntWritable;
 
-public class PageNodeInLinkWritable extends AbstractPageNodeWritable {
+public class PageRankNodeWritable extends AbstractPageNodeWritableComparable {
 	private VIntArrayWritable inLinks = new VIntArrayWritable();
 
-	public PageNodeInLinkWritable() {
+	public PageRankNodeWritable() {
 		super();
 		this.inLinks = new VIntArrayWritable();
 	}
 
-	public PageNodeInLinkWritable(VIntWritable id, VIntWritable outCount,
+	public PageRankNodeWritable(VIntWritable id, VIntWritable outCount,
 			VIntArrayWritable inLinks, FloatWritable score) {
 		super(id, outCount, score);
 		this.inLinks = inLinks;
 	}
 
-	public PageNodeInLinkWritable(Integer id, Integer outCount,
+	public PageRankNodeWritable(Integer id, Integer outCount,
 			List<Integer> inLinks, Float score) {
 		super(id, outCount, score);
 		VIntWritable[] inLinksArray = inLinks

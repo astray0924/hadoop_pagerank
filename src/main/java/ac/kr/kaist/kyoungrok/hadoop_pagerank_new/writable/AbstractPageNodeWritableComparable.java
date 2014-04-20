@@ -6,27 +6,29 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.VIntWritable;
-import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
 
-public abstract class AbstractPageNodeWritable implements Writable {
+public abstract class AbstractPageNodeWritableComparable implements
+		WritableComparable {
 	protected VIntWritable id;
 	protected VIntWritable outCount;
 	protected FloatWritable score;
 
-	public AbstractPageNodeWritable() {
+	public AbstractPageNodeWritableComparable() {
 		this.id = new VIntWritable();
 		this.outCount = new VIntWritable();
 		this.score = new FloatWritable();
 	}
 
-	public AbstractPageNodeWritable(VIntWritable id, VIntWritable outCount,
-			FloatWritable score) {
+	public AbstractPageNodeWritableComparable(VIntWritable id,
+			VIntWritable outCount, FloatWritable score) {
 		this.id = id;
 		this.outCount = outCount;
 		this.score = score;
 	}
 
-	public AbstractPageNodeWritable(Integer id, Integer outCount, Float score) {
+	public AbstractPageNodeWritableComparable(Integer id, Integer outCount,
+			Float score) {
 		this.id = new VIntWritable(id);
 		this.outCount = new VIntWritable(outCount);
 		this.score = new FloatWritable(score);
@@ -68,6 +70,12 @@ public abstract class AbstractPageNodeWritable implements Writable {
 		id.readFields(in);
 		outCount.readFields(in);
 		score.readFields(in);
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		AbstractPageNodeWritableComparable compareTo = (AbstractPageNodeWritableComparable) arg0;
+		return -getScore().compareTo(compareTo.getScore());
 	}
 
 	@Override
