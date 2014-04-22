@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.VIntWritable;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 import org.apache.hadoop.mrunit.types.Pair;
@@ -89,8 +90,14 @@ public class TestJobDegree {
 				new VIntWritable(1),
 				Arrays.asList(new VIntWritable(1), new VIntWritable(4),
 						new VIntWritable(3), new VIntWritable(2)));
+
+		List<Pair<VIntWritable, VIntArrayWritable>> outputs = driver.run();
 		
-		driver.run();
+		System.out.println("-------------Reducer---------------");
+		for (Pair<VIntWritable, VIntArrayWritable> output : outputs) {
+			System.out.printf("%s - %s\n", output.getFirst(),
+					output.getSecond());
+		}
 	}
 
 }

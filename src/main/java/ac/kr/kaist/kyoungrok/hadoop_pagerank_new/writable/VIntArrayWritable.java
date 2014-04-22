@@ -6,6 +6,8 @@ import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.io.Writable;
 
+import com.google.common.base.Joiner;
+
 public class VIntArrayWritable extends ArrayWritable {
 	public VIntArrayWritable() {
 		super(VIntWritable.class);
@@ -15,9 +17,10 @@ public class VIntArrayWritable extends ArrayWritable {
 	public VIntArrayWritable(Writable[] values) {
 		super(VIntWritable.class, values);
 	}
-	
+
 	public VIntArrayWritable(List<VIntWritable> values) {
-		super(VIntWritable.class, values.toArray(new VIntWritable[values.size()]));
+		super(VIntWritable.class, values
+				.toArray(new VIntWritable[values.size()]));
 	}
 
 	public int getSize() {
@@ -25,6 +28,7 @@ public class VIntArrayWritable extends ArrayWritable {
 	}
 
 	public String toString() {
-		return getSize() + " elements";
+		return Joiner.on(",").join(get());
 	}
+
 }

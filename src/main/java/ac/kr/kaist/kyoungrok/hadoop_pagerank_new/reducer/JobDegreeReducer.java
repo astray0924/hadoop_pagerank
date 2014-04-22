@@ -16,7 +16,7 @@ public class JobDegreeReducer extends
 			Context context) throws IOException, InterruptedException {
 		List<VIntWritable> links = new ArrayList<VIntWritable>();
 		for (VIntWritable l : linksIter) {
-			links.add(l);
+			links.add(new VIntWritable(l.get()));
 		}
 
 		VIntArrayWritable linksWritable = new VIntArrayWritable(links);
