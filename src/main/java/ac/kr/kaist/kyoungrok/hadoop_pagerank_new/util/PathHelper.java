@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.Path;
 
 public class PathHelper {
 	private enum PathName {
-		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE
+		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE
 	}
 
 	public static final String NAME_PARSE = "parse";
@@ -17,6 +17,7 @@ public class PathHelper {
 	public static final String NAME_TITLE_ID_MAP = "titleidmap";
 	public static final String NAME_ID_TITLE_MAP = "idtitlemap";
 	public static final String NAME_OUT_DEGREE = "outdegree";
+	public static final String NAME_IN_DEGREE = "indegree";
 	
 	private static final Path emptyPath = new Path(" ");
 
@@ -46,6 +47,9 @@ public class PathHelper {
 		case OUTDEGREE:
 			return new Path(basePath, new Path(
 					NAME_OUT_DEGREE));
+		case INDEGREE:
+			return new Path(basePath, new Path(
+					NAME_IN_DEGREE));
 		default:
 			return emptyPath;
 		}

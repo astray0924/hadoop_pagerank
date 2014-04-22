@@ -17,9 +17,9 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobInDegreeMapper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobOutDegreeMapper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.JobDegreeReducer;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperInDegree;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperOutDegree;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.ReducerDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
@@ -56,7 +56,7 @@ public class TestJobDegree {
 
 	@Test
 	public void testInDegree() throws IOException {
-		JobInDegreeMapper job = new JobInDegreeMapper();
+		MapperInDegree job = new MapperInDegree();
 		job.setIndex(index);
 		mapDriver.withMapper(job).withInput(mapperInput);
 		List<Pair<VIntWritable, VIntWritable>> outputs = mapDriver.run();
@@ -70,7 +70,7 @@ public class TestJobDegree {
 
 	@Test
 	public void testOutDegree() throws IOException {
-		JobOutDegreeMapper job = new JobOutDegreeMapper();
+		MapperOutDegree job = new MapperOutDegree();
 		job.setIndex(index);
 		mapDriver.withMapper(job).withInput(mapperInput);
 		List<Pair<VIntWritable, VIntWritable>> outputs = mapDriver.run();
@@ -84,7 +84,7 @@ public class TestJobDegree {
 
 	@Test
 	public void testReducer() throws IOException {
-		JobDegreeReducer reducer = new JobDegreeReducer();
+		ReducerDegree reducer = new ReducerDegree();
 		ReduceDriver<VIntWritable, VIntWritable, VIntWritable, VIntArrayWritable> driver = new ReduceDriver<VIntWritable, VIntWritable, VIntWritable, VIntArrayWritable>();
 		driver.withReducer(reducer).withInput(
 				new VIntWritable(1),

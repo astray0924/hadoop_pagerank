@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.WikiDumpParser;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
-public class JobParseMapper extends
+public class MapperParse extends
 		Mapper<LongWritable, Text, Text, PageMetaNode> {
 	private WikiDumpParser parser;
 

@@ -18,7 +18,7 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobParseMapper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperParse;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
 public class TestJobParse {
@@ -45,7 +45,7 @@ public class TestJobParse {
 				new LongWritable(1), new Text(pages.get(1)));
 
 		MapDriver<LongWritable, Text, Text, PageMetaNode> driver = new MapDriver<LongWritable, Text, Text, PageMetaNode>();
-		driver.withMapper(new JobParseMapper()).withInput(input1);
+		driver.withMapper(new MapperParse()).withInput(input1);
 
 		mapperOutput = driver.run(true).get(0);
 

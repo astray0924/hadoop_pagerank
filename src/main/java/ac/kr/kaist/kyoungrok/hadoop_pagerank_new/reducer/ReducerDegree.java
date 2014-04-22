@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
-public class JobDegreeReducer extends
+public class ReducerDegree extends
 		Reducer<VIntWritable, VIntWritable, VIntWritable, VIntArrayWritable> {
 	@Override
 	public void reduce(VIntWritable id, Iterable<VIntWritable> linksIter,

@@ -19,7 +19,7 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
-public class JobGraphMapper extends
+public class MapperGraph extends
 		Mapper<Text, PageMetaNode, VIntWritable, PageRankNode> {
 	private Map<Text, VIntWritable> index;
 	private FloatWritable initialScore;

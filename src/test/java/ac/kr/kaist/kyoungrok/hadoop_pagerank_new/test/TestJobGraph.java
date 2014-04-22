@@ -15,7 +15,7 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.JobGraphMapper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperGraph;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
@@ -59,7 +59,7 @@ public class TestJobGraph {
 
 	@Test
 	public void testAllNodes() throws IOException {
-		JobGraphMapper mapper = new JobGraphMapper();
+		MapperGraph mapper = new MapperGraph();
 		mapper.setIndex(index);
 		MapDriver<Text, PageMetaNode, PageRankNode, PageRankNode> driver = new MapDriver<Text, PageMetaNode, PageRankNode, PageRankNode>();
 
@@ -69,7 +69,7 @@ public class TestJobGraph {
 	}
 
 	public void testSingleNode(PageMetaNode node) throws IOException {
-		JobGraphMapper mapper = new JobGraphMapper();
+		MapperGraph mapper = new MapperGraph();
 		mapper.setIndex(index);
 
 		MapDriver<Text, PageMetaNode, VIntWritable, PageRankNode> driver = new MapDriver<Text, PageMetaNode, VIntWritable, PageRankNode>();

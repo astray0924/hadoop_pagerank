@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNodeArrayWritable;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
-public class JobGraphReducer
+public class ReducerGraph
 		extends
 		Reducer<PageRankNode, PageRankNode, PageRankNode, PageRankNodeArrayWritable> {
 

@@ -1,6 +1,8 @@
 package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper;
 
 import java.io.IOException;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
@@ -16,37 +18,42 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 
-public class JobInDegreeMapper extends
+public class MapperOutDegree extends
 		Mapper<Text, PageMetaNode, VIntWritable, VIntWritable> {
 	private Map<Text, VIntWritable> index;
 
 	@Override
 	protected void setup(Context context) throws IOException {
 		if (index == null) {
-			readIndexFromCache(context);			
+			index = new HashMap<Text, VIntWritable>();
+			readIndexFromCache(context);
 		}
 
 		if (index == null) {
 			throw new IllegalStateException("title-id index is missing!");
 		}
+		
+		Object[] out = index.values().toArray();
+
 	}
 
+	@SuppressWarnings("deprecation")
 	private void readIndexFromCache(Context context) throws IOException {
 		Configuration conf = context.getConfiguration();
 
-		Path[] files = PathHelper.getCacheFiles(PathHelper.NAME_TITLE_ID_MAP,
-				conf);
+		URI[] files = context.getCacheFiles();
 
+		FileSystem fs = PathHelper.getFileSystem(new Path(files[0]),
+				context.getConfiguration());
 		Text title = new Text("");
 		VIntWritable id = new VIntWritable(0);
-		FileSystem fs = PathHelper.getFileSystem(files[0],
-				context.getConfiguration());
-		for (Path path : files) {
-			SequenceFile.Reader reader = new SequenceFile.Reader(fs, path, conf);
+		for (URI path : files) {
+			SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(
+					path), conf);
 
 			try {
 				while (reader.next(title, id)) {
-					index.put(title, id);
+					index.put(new Text(title), new VIntWritable(id.get()));
 				}
 			} finally {
 				reader.close();
@@ -68,10 +75,12 @@ public class JobInDegreeMapper extends
 		Text linkTitle = new Text();
 		for (Writable lt : linkTitles.get()) {
 			linkTitle = (Text) lt;
+			
+//			System.out.printf("%s - %s\n", linkTitle, index.get(linkTitle));
 
 			if (index.containsKey(linkTitle)) {
 				VIntWritable linkId = index.get(linkTitle);
-				context.write(linkId, id);
+				context.write(id, linkId);
 			}
 		}
 	}

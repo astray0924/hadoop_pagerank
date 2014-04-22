@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
-public class JobParseReducer extends
+public class ReducerParse extends
 		Reducer<Text, PageMetaNode, Text, PageMetaNode> {
 	@SuppressWarnings("rawtypes")
 	private MultipleOutputs mos;

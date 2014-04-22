@@ -1,7 +1,6 @@
 package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,15 +17,14 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 
-public class JobOutDegreeMapper extends
+public class MapperInDegree extends
 		Mapper<Text, PageMetaNode, VIntWritable, VIntWritable> {
 	private Map<Text, VIntWritable> index;
 
 	@Override
 	protected void setup(Context context) throws IOException {
-		index = new HashMap<Text, VIntWritable>();
-		
 		if (index == null) {
+			index = new HashMap<Text, VIntWritable>();
 			readIndexFromCache(context);
 		}
 
@@ -35,22 +33,22 @@ public class JobOutDegreeMapper extends
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void readIndexFromCache(Context context) throws IOException {
 		Configuration conf = context.getConfiguration();
 
-		URI[] files = context.getCacheFiles();
+		Path[] files = PathHelper.getCacheFiles(PathHelper.NAME_TITLE_ID_MAP,
+				conf);
 
-		FileSystem fs = PathHelper.getFileSystem(new Path(files[0]),
-				context.getConfiguration());
 		Text title = new Text("");
 		VIntWritable id = new VIntWritable(0);
-		for (URI path : files) {
-			SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), conf);
+		FileSystem fs = PathHelper.getFileSystem(files[0],
+				context.getConfiguration());
+		for (Path path : files) {
+			SequenceFile.Reader reader = new SequenceFile.Reader(fs, path, conf);
 
 			try {
 				while (reader.next(title, id)) {
-					index.put(title, id);
+					index.put(new Text(title), new VIntWritable(id.get()));
 				}
 			} finally {
 				reader.close();
@@ -75,7 +73,7 @@ public class JobOutDegreeMapper extends
 
 			if (index.containsKey(linkTitle)) {
 				VIntWritable linkId = index.get(linkTitle);
-				context.write(id, linkId);
+				context.write(linkId, id);
 			}
 		}
 	}

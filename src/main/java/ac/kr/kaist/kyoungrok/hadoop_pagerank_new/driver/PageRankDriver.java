@@ -5,12 +5,13 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobInDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobOutDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobParse;
 
 public class PageRankDriver extends Configured implements Tool {
 	private enum JobName {
-		PARSE, OUTDEGREE, INDEGREE, GRAPH, RANK, LIST
+		PARSE, DEGREE, GRAPH, RANK, LIST
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -51,8 +52,9 @@ public class PageRankDriver extends Configured implements Tool {
 		switch (startJob) {
 		case PARSE:
 			JobParse.run(conf);
-		case OUTDEGREE:
+		case DEGREE:
 			JobOutDegree.run(conf);
+			JobInDegree.run(conf);
 		case GRAPH:
 //			System.out.println("graph");
 			break;

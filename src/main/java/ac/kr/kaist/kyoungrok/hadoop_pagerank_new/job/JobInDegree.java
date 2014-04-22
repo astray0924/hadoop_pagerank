@@ -12,17 +12,17 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperOutDegree;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperInDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.ReducerDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
-public class JobOutDegree {
+public class JobInDegree {
 	public static boolean run(Configuration conf) throws IOException,
 			InterruptedException, ClassNotFoundException {
-		Job job = Job.getInstance(conf, "OutDegree");
+		Job job = Job.getInstance(conf, "InDegree");
 		job.setJarByClass(PageRankDriver.class);
-		job.setJobName("OutDegree");
+		job.setJobName("InDegree");
 
 		// Set Input Path
 		Path inputPath = PathHelper.getPathByName(PathHelper.NAME_META_NODES,
@@ -30,12 +30,12 @@ public class JobOutDegree {
 		FileInputFormat.addInputPath(job, inputPath);
 
 		// Set Output Path
-		Path outputPath = PathHelper.getPathByName(PathHelper.NAME_OUT_DEGREE,
+		Path outputPath = PathHelper.getPathByName(PathHelper.NAME_IN_DEGREE,
 				conf);
 		FileOutputFormat.setOutputPath(job, outputPath);
 
 		// Mapper
-		job.setMapperClass(MapperOutDegree.class);
+		job.setMapperClass(MapperInDegree.class);
 		job.setMapOutputKeyClass(VIntWritable.class);
 		job.setMapOutputValueClass(VIntWritable.class);
 
