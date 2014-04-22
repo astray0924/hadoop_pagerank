@@ -15,10 +15,9 @@ public class PageRankNode extends AbstractPageNodeWritableComparable {
 
 	public String toString() {
 		return String
-				.format("RANK: {ID: %s, OUTCOUNT: %s, INLINKS: %s, INCOUNT: %s, SCORE: %s}",
-						id, outCount,
-						StringUtils.join(inLinks.toStrings(), ","),
-						inLinks.getSize(), score);
+				.format("RANK: {ID: %s, INLINKS: %s, INCOUNT: %s, OUTCOUNT: %s, SCORE: %s}",
+						id, StringUtils.join(inLinks.toStrings(), ","),
+						inLinks.getSize(), outCount, score);
 	}
 
 	public PageRankNode() {
