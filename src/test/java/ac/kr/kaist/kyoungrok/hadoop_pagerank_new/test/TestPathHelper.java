@@ -24,7 +24,7 @@ public class TestPathHelper {
 	
 	@Test
 	public void testListFiles() throws IOException {
-		Path[] parsedFiles = PathHelper.listDir(PathHelper.getPathByName(PathHelper.NAME_PARSE, conf), conf);
+		Path[] parsedFiles = PathHelper.listFiles(PathHelper.getPathByName(PathHelper.NAME_PARSE, conf), conf);
 		for (Path p : parsedFiles) {
 //			System.out.println(p);
 		}

@@ -39,16 +39,16 @@ public class MapperGraph extends
 		}
 
 		// read index
+		VIntWritable id = new VIntWritable();
+		VIntArrayWritable inLinks = new VIntArrayWritable();
 		for (URI uri : cacheFiles) {
 			MapFile.Reader reader = new MapFile.Reader(new Path(uri),
 					context.getConfiguration());
 
 			try {
-				VIntWritable id = new VIntWritable();
-				VIntArrayWritable inLinks = new VIntArrayWritable();
 
 				while (reader.next(id, inLinks)) {
-					outlinkIndex.put(id, inLinks);
+					outlinkIndex.put(new VIntWritable(id.get()), new VIntArrayWritable(inLinks.get()));
 				}
 			} finally {
 				reader.close();
@@ -70,11 +70,10 @@ public class MapperGraph extends
 			throws IOException, InterruptedException {
 		PageRankNode node = new PageRankNode();
 		VIntWritable outCount = new VIntWritable(0);
-		
+
 		if (outlinkIndex.containsKey(id)) {
 			outCount.set(outlinkIndex.get(id).getSize());
 			node.set(id, outCount, inLinks, initialScore);
-			
 			context.write(id, node);
 		}
 	}

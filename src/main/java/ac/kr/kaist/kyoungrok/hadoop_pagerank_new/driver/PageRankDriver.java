@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobGraph;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobInDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobOutDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobParse;
@@ -56,8 +57,7 @@ public class PageRankDriver extends Configured implements Tool {
 			JobOutDegree.run(conf);
 			JobInDegree.run(conf);
 		case GRAPH:
-//			System.out.println("graph");
-			break;
+			JobGraph.run(conf);
 		case RANK:
 		case LIST:
 			break;

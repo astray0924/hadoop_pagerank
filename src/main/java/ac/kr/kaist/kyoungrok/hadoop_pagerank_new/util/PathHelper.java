@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.Path;
 
 public class PathHelper {
 	private enum PathName {
-		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE
+		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE, GRAPH
 	}
 
 	public static final String NAME_PARSE = "parse";
@@ -18,10 +18,11 @@ public class PathHelper {
 	public static final String NAME_ID_TITLE_MAP = "idtitlemap";
 	public static final String NAME_OUT_DEGREE = "outdegree";
 	public static final String NAME_IN_DEGREE = "indegree";
-	
+	public static final String NAME_GRAPH = "graph";
+
 	private static final Path emptyPath = new Path(" ");
 
-	public static Path getPathByName(String pathName, Configuration conf) {	
+	public static Path getPathByName(String pathName, Configuration conf) {
 		Path basePath = new Path(conf.get("output_path"));
 		PathName pName = PathName.NONE;
 
@@ -45,11 +46,11 @@ public class PathHelper {
 			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
 					NAME_ID_TITLE_MAP));
 		case OUTDEGREE:
-			return new Path(basePath, new Path(
-					NAME_OUT_DEGREE));
+			return new Path(basePath, new Path(NAME_OUT_DEGREE));
 		case INDEGREE:
-			return new Path(basePath, new Path(
-					NAME_IN_DEGREE));
+			return new Path(basePath, new Path(NAME_IN_DEGREE));
+		case GRAPH:
+			return new Path(basePath, new Path(NAME_GRAPH));
 		default:
 			return emptyPath;
 		}
@@ -60,7 +61,7 @@ public class PathHelper {
 		return FileSystem.get(path.toUri(), conf);
 	}
 
-	public static Path[] listDir(Path dirPath, Configuration conf)
+	public static Path[] listFiles(Path dirPath, Configuration conf)
 			throws IOException {
 		FileSystem fs = FileSystem.get(dirPath.toUri(), conf);
 		return FileUtil.stat2Paths(fs.listStatus(dirPath));
@@ -81,10 +82,13 @@ public class PathHelper {
 		switch (name) {
 		case TITLEIDMAP:
 			cachePath = getPathByName(NAME_TITLE_ID_MAP, conf);
-			return listDir(cachePath, conf);
+			return listFiles(cachePath, conf);
 		case IDTITLEMAP:
 			cachePath = getPathByName(NAME_ID_TITLE_MAP, conf);
-			return listDir(cachePath, conf);
+			return listFiles(cachePath, conf);
+		case OUTDEGREE:
+			cachePath = getPathByName(NAME_OUT_DEGREE, conf);
+			return listFiles(cachePath, conf);
 		default:
 			break;
 		}
