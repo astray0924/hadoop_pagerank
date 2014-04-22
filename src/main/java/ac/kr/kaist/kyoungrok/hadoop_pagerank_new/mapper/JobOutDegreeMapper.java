@@ -1,6 +1,8 @@
 package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper;
 
 import java.io.IOException;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
@@ -22,6 +24,8 @@ public class JobOutDegreeMapper extends
 
 	@Override
 	protected void setup(Context context) throws IOException {
+		index = new HashMap<Text, VIntWritable>();
+		
 		if (index == null) {
 			readIndexFromCache(context);
 		}
@@ -31,18 +35,18 @@ public class JobOutDegreeMapper extends
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void readIndexFromCache(Context context) throws IOException {
 		Configuration conf = context.getConfiguration();
 
-		Path[] files = PathHelper.getCacheFiles(PathHelper.NAME_TITLE_ID_MAP,
-				conf);
+		URI[] files = context.getCacheFiles();
 
+		FileSystem fs = PathHelper.getFileSystem(new Path(files[0]),
+				context.getConfiguration());
 		Text title = new Text("");
 		VIntWritable id = new VIntWritable(0);
-		FileSystem fs = PathHelper.getFileSystem(files[0],
-				context.getConfiguration());
-		for (Path path : files) {
-			SequenceFile.Reader reader = new SequenceFile.Reader(fs, path, conf);
+		for (URI path : files) {
+			SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), conf);
 
 			try {
 				while (reader.next(title, id)) {

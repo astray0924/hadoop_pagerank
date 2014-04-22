@@ -25,12 +25,13 @@ public class JobParse {
 			InterruptedException, ClassNotFoundException {
 		Job job = Job.getInstance(conf, "Parse");
 		job.setJarByClass(PageRankDriver.class);
+		job.setJobName("Parse");
 
 		// Set Input Path
 		FileInputFormat.addInputPath(job, new Path(conf.get("wikidump_path")));
 
 		// Set Output Path
-		Path outputPath = PathHelper.getPathForName(PathHelper.NAME_PARSE, conf);
+		Path outputPath = PathHelper.getPathByName(PathHelper.NAME_PARSE, conf);
 		FileOutputFormat.setOutputPath(job, outputPath);
 
 		// Mapper
@@ -40,13 +41,14 @@ public class JobParse {
 
 		// Reducer
 		job.setReducerClass(JobParseReducer.class);
-
-		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_META_NODE,
+		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_META_NODES,
 				SequenceFileOutputFormat.class, Text.class, PageMetaNode.class);
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_TITLE_ID_MAP,
 				SequenceFileOutputFormat.class, Text.class, VIntWritable.class);
 		MultipleOutputs.addNamedOutput(job, PathHelper.NAME_ID_TITLE_MAP,
 				SequenceFileOutputFormat.class, VIntWritable.class, Text.class);
+		
+		// File Format
 		LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 
 		return job.waitForCompletion(true);

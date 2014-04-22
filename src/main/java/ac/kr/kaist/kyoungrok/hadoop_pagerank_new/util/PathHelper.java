@@ -9,17 +9,18 @@ import org.apache.hadoop.fs.Path;
 
 public class PathHelper {
 	private enum PathName {
-		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP
+		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE
 	}
 
 	public static final String NAME_PARSE = "parse";
-	public static final String NAME_META_NODE = "metanodes";
+	public static final String NAME_META_NODES = "metanodes";
 	public static final String NAME_TITLE_ID_MAP = "titleidmap";
 	public static final String NAME_ID_TITLE_MAP = "idtitlemap";
+	public static final String NAME_OUT_DEGREE = "outdegree";
 	
 	private static final Path emptyPath = new Path(" ");
 
-	public static Path getPathForName(String pathName, Configuration conf) {	
+	public static Path getPathByName(String pathName, Configuration conf) {	
 		Path basePath = new Path(conf.get("output_path"));
 		PathName pName = PathName.NONE;
 
@@ -35,13 +36,16 @@ public class PathHelper {
 			return new Path(basePath, new Path(NAME_PARSE));
 		case METANODES:
 			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
-					NAME_META_NODE));
+					NAME_META_NODES));
 		case TITLEIDMAP:
 			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
 					NAME_TITLE_ID_MAP));
 		case IDTITLEMAP:
 			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
 					NAME_ID_TITLE_MAP));
+		case OUTDEGREE:
+			return new Path(basePath, new Path(
+					NAME_OUT_DEGREE));
 		default:
 			return emptyPath;
 		}
@@ -72,9 +76,11 @@ public class PathHelper {
 		Path cachePath = new Path(" ");
 		switch (name) {
 		case TITLEIDMAP:
-			cachePath = getPathForName(NAME_TITLE_ID_MAP, conf);
+			cachePath = getPathByName(NAME_TITLE_ID_MAP, conf);
 			return listDir(cachePath, conf);
-
+		case IDTITLEMAP:
+			cachePath = getPathByName(NAME_ID_TITLE_MAP, conf);
+			return listDir(cachePath, conf);
 		default:
 			break;
 		}

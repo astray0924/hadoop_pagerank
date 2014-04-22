@@ -5,11 +5,12 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobOutDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobParse;
 
 public class PageRankDriver extends Configured implements Tool {
 	private enum JobName {
-		PARSE, DEGREE, GRAPH, RANK, LIST
+		PARSE, OUTDEGREE, INDEGREE, GRAPH, RANK, LIST
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -25,9 +26,9 @@ public class PageRankDriver extends Configured implements Tool {
 			System.err
 					.printf("Usage: %s [generic options] <wikidump path> <output path> <start job(optional)>\n",
 							getClass().getSimpleName());
-			
+
 			System.err.println("<start job>: parse, degree, graph, rank, list");
-			
+
 			ToolRunner.printGenericCommandUsage(System.err);
 			return -1;
 		}
@@ -49,15 +50,16 @@ public class PageRankDriver extends Configured implements Tool {
 
 		switch (startJob) {
 		case PARSE:
-			// Parse
-			// JobParse.run(conf);
-			System.out.println("parse");
-		case DEGREE:
-			System.out.println("degree");
+			JobParse.run(conf);
+		case OUTDEGREE:
+			JobOutDegree.run(conf);
 		case GRAPH:
-			System.out.println("graph");
+//			System.out.println("graph");
+			break;
 		case RANK:
 		case LIST:
+			break;
+		default:
 			break;
 		}
 
