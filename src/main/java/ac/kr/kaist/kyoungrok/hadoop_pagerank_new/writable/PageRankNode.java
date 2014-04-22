@@ -30,6 +30,10 @@ public class PageRankNode extends AbstractPageNodeWritableComparable {
 		super(id, outCount, score);
 		this.inLinks = inLinks;
 	}
+	
+	public PageRankNode(PageRankNode node) {
+		this(node.getId(), node.getOutCount(), node.getInLinks(), node.score);
+	}
 
 	public PageRankNode(Integer id, Integer outCount, List<Integer> inLinks,
 			Float score) {

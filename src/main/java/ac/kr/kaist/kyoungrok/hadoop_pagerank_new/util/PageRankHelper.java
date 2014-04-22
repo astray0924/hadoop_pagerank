@@ -2,7 +2,6 @@ package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util;
 
 import java.util.Map;
 
-import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.VIntWritable;
 
@@ -10,34 +9,34 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
 
 public class PageRankHelper {
 	private static final float jumpingFactor = 0.85f;
+	private Map<VIntWritable, PageRankNode> graph;
+	private int N;
 
-	public static void updateGraphScores(Map<VIntWritable, PageRankNode> graph) {
-		for (PageRankNode node : graph.values()) {
-			float newScore = calculateNewScore(graph, node);
-			node.updateScore(newScore);
+	public PageRankHelper(Map<VIntWritable, PageRankNode> graph) {
+		if (graph == null) {
+			throw new IllegalArgumentException("The graph must not be null!");
 		}
+
+		this.graph = graph;
+		this.N = graph.size();
 	}
 
-	public static float calculateNewScore(
-			Map<VIntWritable, PageRankNode> graph, PageRankNode info) {
-		float nodeCount = (float) graph.size();
-		float newScore = ((1 - jumpingFactor) * (1 / nodeCount))
-				+ (jumpingFactor) * calculateOuterFactor(graph, info);
+	public float getNewScore(PageRankNode node) {
+		float newScore = ((1 - jumpingFactor) * (1 / N)) + (jumpingFactor)
+				* calculateOuterFactor(node);
 
 		return newScore;
 	}
 
-	private static float calculateOuterFactor(
-			Map<VIntWritable, PageRankNode> graph, PageRankNode info) {
+	private float calculateOuterFactor(PageRankNode node) {
 		float score = 0.0f;
 
-		LongWritable[] linksIds = (LongWritable[]) info.getInLinks().toArray();
+		LongWritable[] linksIds = (LongWritable[]) node.getInLinks().toArray();
 		for (LongWritable link : linksIds) {
 			if (graph.containsKey(link)) {
-				PageRankNode l = graph.get(link);
-				float s = Float.parseFloat(l.getScore().toString());
-				int c = Integer.parseInt(l.getOutCount().toString());
-
+				PageRankNode nd = graph.get(link);
+				float s = nd.getScore().get();
+				int c = nd.getOutCount().get();
 				score += (float) s / c;
 			}
 
