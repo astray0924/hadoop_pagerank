@@ -54,6 +54,14 @@ public class PageRankNode extends AbstractPageNodeWritableComparable {
 		super.set(id, outCount, score);
 		this.inLinks = inLinks;
 	}
+	
+	public void updateScore(FloatWritable score) {
+		this.score = score;
+	}
+	
+	public void updateScore(float score) {
+		this.updateScore(new FloatWritable(score));
+	}
 
 	public VIntArrayWritable getInLinks() {
 		return inLinks;

@@ -10,14 +10,13 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
 
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperGraph;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.ReducerGraph;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
 
 public class JobGraph {
 	public static boolean run(Configuration conf) throws IOException,
@@ -47,7 +46,7 @@ public class JobGraph {
 
 		// File Format
 		job.setInputFormatClass(SequenceFileInputFormat.class);
-		job.setOutputFormatClass(TextOutputFormat.class);
+		job.setOutputFormatClass(MapFileOutputFormat.class);
 
 		// Add cache
 		Path[] cacheFiles = PathHelper.getCacheFiles(PathHelper.NAME_OUT_DEGREE,
