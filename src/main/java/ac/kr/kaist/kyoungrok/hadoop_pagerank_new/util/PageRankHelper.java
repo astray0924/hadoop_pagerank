@@ -29,8 +29,8 @@ public class PageRankHelper {
 	}
 
 	public float getNewScore(PageRankNode node) {
-		float newScore = ((1 - jumpingFactor) * (1 / N)) + (jumpingFactor)
-				* calculateOuterFactor(node);
+		float newScore = ((1 - jumpingFactor) * ((float) 1 / N))
+				+ (jumpingFactor) * calculateOuterFactor(node);
 
 		return newScore;
 	}
@@ -38,8 +38,8 @@ public class PageRankHelper {
 	private float calculateOuterFactor(PageRankNode node) {
 		float score = 0.0f;
 
-		LongWritable[] linksIds = (LongWritable[]) node.getInLinks().toArray();
-		for (LongWritable link : linksIds) {
+		VIntWritable[] linksIds = (VIntWritable[]) node.getInLinks().toArray();
+		for (VIntWritable link : linksIds) {
 			if (graph.containsKey(link)) {
 				PageRankNode nd = graph.get(link);
 				float s = nd.getScore().get();
