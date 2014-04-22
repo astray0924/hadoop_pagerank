@@ -21,6 +21,13 @@ public class PageRankHelper {
 		this.N = graph.size();
 	}
 
+	public void updateGraphScores(Map<VIntWritable, PageRankNode> graph) {
+		for (PageRankNode node : graph.values()) {
+			float newScore = getNewScore(node);
+			node.updateScore(newScore);
+		}
+	}
+
 	public float getNewScore(PageRankNode node) {
 		float newScore = ((1 - jumpingFactor) * (1 / N)) + (jumpingFactor)
 				* calculateOuterFactor(node);
