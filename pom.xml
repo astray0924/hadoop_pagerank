@@ -4,7 +4,7 @@
 
   <groupId>ac.kr.kaist.kyoungrok</groupId>
   <artifactId>hadoop_pagerank_new</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>hadoop_pagerank_new</name>
@@ -23,7 +23,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>InvertedIndexDriver</mainClass>
+							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -118,7 +118,7 @@
 			<groupId>org.apache.mrunit</groupId>
 			<artifactId>mrunit</artifactId>
 			<classifier>hadoop2</classifier>
-			<version>1.0.0</version>
+			<version>1.0.0</version><!--$NO-MVN-MAN-VER$-->
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
