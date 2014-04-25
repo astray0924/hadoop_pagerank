@@ -23,6 +23,8 @@ public class JobRank {
 			InterruptedException, ClassNotFoundException {
 
 		for (int i = 0; i < K; i++) {
+			System.err.printf("[ITERATION] - %s\n", (i + 1));
+
 			Job job = Job.getInstance(conf, "Rank");
 			job.setJarByClass(PageRankDriver.class);
 			job.setJobName("Rank");
