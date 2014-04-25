@@ -57,7 +57,7 @@ public class PageRankDriver extends Configured implements Tool {
 			JobOutDegree.run(conf);
 			JobInDegree.run(conf);
 		case GRAPH:
-			JobGraph.run(conf);
+//			JobGraph.run(conf);
 		case RANK:
 		case LIST:
 			break;

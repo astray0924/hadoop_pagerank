@@ -20,6 +20,10 @@ public class MapperGraph extends
 	private Map<VIntWritable, VIntArrayWritable> outlinkIndex;
 	private FloatWritable initialScore;
 
+	private enum Graph {
+		HIT, MISSED
+	}
+
 	@Override
 	protected void setup(Context context) throws IOException {
 		if (outlinkIndex == null) {
@@ -48,7 +52,8 @@ public class MapperGraph extends
 			try {
 
 				while (reader.next(id, inLinks)) {
-					outlinkIndex.put(new VIntWritable(id.get()), new VIntArrayWritable(inLinks.get()));
+					outlinkIndex.put(new VIntWritable(id.get()),
+							new VIntArrayWritable(inLinks.get()));
 				}
 			} finally {
 				reader.close();
@@ -75,6 +80,11 @@ public class MapperGraph extends
 			outCount.set(outlinkIndex.get(id).getSize());
 			node.set(id, outCount, inLinks, initialScore);
 			context.write(id, node);
+
+			context.getCounter(Graph.HIT).increment(1);
+		} else {
+			context.getCounter(Graph.MISSED).increment(1);
+//			System.out.printf("[MISSED] - %s\n", id);
 		}
 	}
 }

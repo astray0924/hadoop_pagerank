@@ -11,6 +11,10 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 
 public class ReducerParse extends
 		Reducer<Text, PageMetaNode, Text, PageMetaNode> {
+	private enum Page {
+		WIKI_PAGE_PARSED
+	}
+
 	@SuppressWarnings("rawtypes")
 	private MultipleOutputs mos;
 
@@ -27,17 +31,20 @@ public class ReducerParse extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public void reduce(Text title, Iterable<PageMetaNode> nodes,
-			Context context) throws IOException, InterruptedException {
+	public void reduce(Text title, Iterable<PageMetaNode> nodes, Context context)
+			throws IOException, InterruptedException {
 		PageMetaNode node = nodes.iterator().next();
 
-		mos.write(PathHelper.NAME_META_NODES, title, node, String.format(
-				"%s/%s", PathHelper.NAME_META_NODES, PathHelper.NAME_META_NODES));
+		mos.write(PathHelper.NAME_META_NODES, title, node, String
+				.format("%s/%s", PathHelper.NAME_META_NODES,
+						PathHelper.NAME_META_NODES));
 		mos.write(PathHelper.NAME_TITLE_ID_MAP, title, node.getId(), String
 				.format("%s/%s", PathHelper.NAME_TITLE_ID_MAP,
 						PathHelper.NAME_TITLE_ID_MAP));
 		mos.write(PathHelper.NAME_ID_TITLE_MAP, node.getId(), title, String
 				.format("%s/%s", PathHelper.NAME_ID_TITLE_MAP,
 						PathHelper.NAME_ID_TITLE_MAP));
+
+		context.getCounter(Page.WIKI_PAGE_PARSED).increment(1);
 	}
 }
