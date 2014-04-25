@@ -9,6 +9,7 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobGraph;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobInDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobOutDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobParse;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobRank;
 
 public class PageRankDriver extends Configured implements Tool {
 	private enum JobName {
@@ -57,8 +58,9 @@ public class PageRankDriver extends Configured implements Tool {
 			JobOutDegree.run(conf);
 			JobInDegree.run(conf);
 		case GRAPH:
-//			JobGraph.run(conf);
+			JobGraph.run(conf);
 		case RANK:
+			JobRank.run(conf, 20);
 		case LIST:
 			break;
 		default:

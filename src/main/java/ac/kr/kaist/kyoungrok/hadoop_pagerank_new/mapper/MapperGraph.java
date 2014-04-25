@@ -84,7 +84,6 @@ public class MapperGraph extends
 			context.getCounter(Graph.HIT).increment(1);
 		} else {
 			context.getCounter(Graph.MISSED).increment(1);
-//			System.out.printf("[MISSED] - %s\n", id);
 		}
 	}
 }

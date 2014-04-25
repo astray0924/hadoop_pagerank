@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.Path;
 
 public class PathHelper {
 	private enum PathName {
-		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE, GRAPH
+		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE, GRAPH, RANK
 	}
 
 	public static final String NAME_PARSE = "parse";
@@ -19,8 +19,23 @@ public class PathHelper {
 	public static final String NAME_OUT_DEGREE = "outdegree";
 	public static final String NAME_IN_DEGREE = "indegree";
 	public static final String NAME_GRAPH = "graph";
+	public static final String NAME_RANK = "rank";
 
 	private static final Path emptyPath = new Path(" ");
+
+	public static Path getRankInputPathForIteration(int k, Configuration conf) {
+		if (k == 0) {
+			return getPathByName(NAME_GRAPH, conf);
+		} else {
+			return new Path(getPathByName(NAME_RANK, conf), String.valueOf(k));
+		}
+
+	}
+
+	public static Path getRankOutputPathForIteration(int k, Configuration conf) {
+		Path rankPath = getPathByName(NAME_RANK, conf);
+		return new Path(rankPath, String.valueOf(k + 1));
+	}
 
 	public static Path getPathByName(String pathName, Configuration conf) {
 		Path basePath = new Path(conf.get("output_path"));
@@ -51,6 +66,8 @@ public class PathHelper {
 			return new Path(basePath, new Path(NAME_IN_DEGREE));
 		case GRAPH:
 			return new Path(basePath, new Path(NAME_GRAPH));
+		case RANK:
+			return new Path(basePath, new Path(NAME_RANK));
 		default:
 			return emptyPath;
 		}
@@ -65,6 +82,12 @@ public class PathHelper {
 			throws IOException {
 		FileSystem fs = FileSystem.get(dirPath.toUri(), conf);
 		return FileUtil.stat2Paths(fs.listStatus(dirPath));
+	}
+
+	public static Path[] getRankCacheFilesForIteration(int k, Configuration conf)
+			throws IOException {
+		Path path = PathHelper.getRankInputPathForIteration(k, conf);
+		return listFiles(path, conf);
 	}
 
 	public static Path[] getCacheFiles(String cacheName, Configuration conf)
@@ -88,6 +111,9 @@ public class PathHelper {
 			return listFiles(cachePath, conf);
 		case OUTDEGREE:
 			cachePath = getPathByName(NAME_OUT_DEGREE, conf);
+			return listFiles(cachePath, conf);
+		case GRAPH:
+			cachePath = getPathByName(NAME_GRAPH, conf);
 			return listFiles(cachePath, conf);
 		default:
 			break;

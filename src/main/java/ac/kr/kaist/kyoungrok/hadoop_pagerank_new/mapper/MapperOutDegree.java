@@ -14,13 +14,15 @@ import org.apache.hadoop.io.VIntWritable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.DegreeCounter;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.TextArrayWritable;
 
 public class MapperOutDegree extends
 		Mapper<Text, PageMetaNode, VIntWritable, VIntWritable> {
+	public enum OutDegreeCounter {
+		HIT, MISSED, INDEX_SIZE
+	}
 
 	private Map<Text, VIntWritable> index;
 
@@ -56,7 +58,8 @@ public class MapperOutDegree extends
 			try {
 				while (reader.next(title, id)) {
 					index.put(new Text(title), new VIntWritable(id.get()));
-					context.getCounter(DegreeCounter.INDEX_SIZE).increment(1);
+					context.getCounter(OutDegreeCounter.INDEX_SIZE)
+							.increment(1);
 				}
 			} finally {
 				reader.close();
@@ -90,9 +93,9 @@ public class MapperOutDegree extends
 		}
 
 		if (found) {
-			context.getCounter(DegreeCounter.HIT).increment(1);
+			context.getCounter(OutDegreeCounter.HIT).increment(1);
 		} else {
-			context.getCounter(DegreeCounter.MISSED).increment(1);
+			context.getCounter(OutDegreeCounter.MISSED).increment(1);
 		}
 	}
 }
