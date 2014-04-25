@@ -10,10 +10,11 @@ import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobInDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobOutDegree;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobParse;
 import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobRank;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.job.JobResult;
 
 public class PageRankDriver extends Configured implements Tool {
 	private enum JobName {
-		PARSE, DEGREE, GRAPH, RANK, LIST
+		PARSE, DEGREE, GRAPH, RANK, RESULT
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -51,6 +52,7 @@ public class PageRankDriver extends Configured implements Tool {
 			}
 		}
 
+		int K = 20;
 		switch (startJob) {
 		case PARSE:
 			JobParse.run(conf);
@@ -60,8 +62,9 @@ public class PageRankDriver extends Configured implements Tool {
 		case GRAPH:
 			JobGraph.run(conf);
 		case RANK:
-			JobRank.run(conf, 20);
-		case LIST:
+			JobRank.run(conf, K);
+		case RESULT:
+			JobResult.run(conf, K);
 			break;
 		default:
 			break;

@@ -1,6 +1,7 @@
 package ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -9,7 +10,7 @@ import org.apache.hadoop.fs.Path;
 
 public class PathHelper {
 	private enum PathName {
-		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE, GRAPH, RANK
+		NONE, PARSE, METANODES, TITLEIDMAP, IDTITLEMAP, OUTDEGREE, INDEGREE, GRAPH, RANK, RESULT
 	}
 
 	public static final String NAME_PARSE = "parse";
@@ -20,6 +21,7 @@ public class PathHelper {
 	public static final String NAME_IN_DEGREE = "indegree";
 	public static final String NAME_GRAPH = "graph";
 	public static final String NAME_RANK = "rank";
+	public static final String NAME_RESULT = "result";
 
 	private static final Path emptyPath = new Path(" ");
 
@@ -68,6 +70,8 @@ public class PathHelper {
 			return new Path(basePath, new Path(NAME_GRAPH));
 		case RANK:
 			return new Path(basePath, new Path(NAME_RANK));
+		case RESULT:
+			return new Path(basePath, new Path(NAME_RESULT));
 		default:
 			return emptyPath;
 		}
@@ -120,5 +124,15 @@ public class PathHelper {
 		}
 
 		return new Path[0];
+	}
+	
+	public static Path[] uris2Paths(URI[] uris) {
+		Path[] paths = new Path[uris.length];
+		
+		for (int i = 0; i < uris.length; i++) {
+			paths[i] = new Path(uris[i]);
+		}
+		
+		return paths;
 	}
 }

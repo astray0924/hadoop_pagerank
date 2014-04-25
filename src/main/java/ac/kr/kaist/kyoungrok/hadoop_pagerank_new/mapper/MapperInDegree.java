@@ -40,8 +40,7 @@ public class MapperInDegree extends
 	private void readIndexFromCache(Context context) throws IOException {
 		Configuration conf = context.getConfiguration();
 
-		Path[] files = PathHelper.getCacheFiles(PathHelper.NAME_TITLE_ID_MAP,
-				conf);
+		Path[] files = PathHelper.uris2Paths(context.getCacheFiles());
 
 		Text title = new Text("");
 		VIntWritable id = new VIntWritable(0);
