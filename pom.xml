@@ -4,7 +4,7 @@
 
   <groupId>ac.kr.kaist.kyoungrok</groupId>
   <artifactId>hadoop_pagerank_new</artifactId>
-  <version>0.9</version>
+  <version>0.91</version>
   <packaging>jar</packaging>
 
   <name>hadoop_pagerank_new</name>
