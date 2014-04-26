@@ -97,7 +97,7 @@ public class WikiDumpParser {
 
 		try {
 			Element titleTag = dom.getElementsByTag("title").get(0);
-			title = titleTag.textNodes().get(0).text();
+			title = titleTag.textNodes().get(0).text().trim();
 		} catch (IndexOutOfBoundsException e) {
 //			e.printStackTrace();
 		} catch (NumberFormatException ne) {
@@ -180,17 +180,17 @@ public class WikiDumpParser {
 			sLink = sLink.trim();
 
 			// 첫번째 문자만 소문자화한다
-			try {
-				sLink = Character.toLowerCase(sLink.charAt(0))
-						+ sLink.substring(1);
-			} catch (IndexOutOfBoundsException e) {
-				if (sLink.isEmpty()) {
-					continue;
-				}
-
-//				System.err.println(link);
-				sLink = String.valueOf(Character.toLowerCase(sLink.charAt(0)));
-			}
+//			try {
+//				sLink = Character.toLowerCase(sLink.charAt(0))
+//						+ sLink.substring(1);
+//			} catch (IndexOutOfBoundsException e) {
+//				if (sLink.isEmpty()) {
+//					continue;
+//				}
+//
+////				System.err.println(link);
+//				sLink = String.valueOf(Character.toLowerCase(sLink.charAt(0)));
+//			}
 
 			// 리스트에 추가
 			sanitizedLinks.add(sLink);
