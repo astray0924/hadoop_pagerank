@@ -69,7 +69,8 @@ public class PathHelper {
 		case GRAPH:
 			return new Path(basePath, new Path(NAME_GRAPH));
 		case RANK:
-			return new Path(basePath, new Path(NAME_RANK));
+			return new Path(NAME_RANK);
+			// return new Path(basePath, new Path(NAME_RANK));
 		case RESULT:
 			return new Path(basePath, new Path(NAME_RESULT));
 		default:
@@ -125,14 +126,14 @@ public class PathHelper {
 
 		return new Path[0];
 	}
-	
+
 	public static Path[] uris2Paths(URI[] uris) {
 		Path[] paths = new Path[uris.length];
-		
+
 		for (int i = 0; i < uris.length; i++) {
 			paths[i] = new Path(uris[i]);
 		}
-		
+
 		return paths;
 	}
 }

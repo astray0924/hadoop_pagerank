@@ -23,6 +23,9 @@ public class PageRankDriver extends Configured implements Tool {
 		System.exit(exitCode);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.util.Tool#run(java.lang.String[])
+	 */
 	@Override
 	public int run(String[] args) throws Exception {
 		// arguments

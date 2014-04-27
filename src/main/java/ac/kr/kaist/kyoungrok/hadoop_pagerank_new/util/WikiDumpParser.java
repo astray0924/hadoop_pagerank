@@ -54,9 +54,9 @@ public class WikiDumpParser {
 			Element nsTag = dom.getElementsByTag("ns").get(0);
 			ns = Integer.parseInt(nsTag.textNodes().get(0).text());
 		} catch (IndexOutOfBoundsException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (NumberFormatException ne) {
-//			ne.printStackTrace();
+			// ne.printStackTrace();
 		}
 
 		return ns;
@@ -69,9 +69,9 @@ public class WikiDumpParser {
 			Element idTag = dom.getElementsByTag("id").get(0);
 			id = Integer.parseInt(idTag.textNodes().get(0).text());
 		} catch (IndexOutOfBoundsException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (NumberFormatException ne) {
-//			ne.printStackTrace();
+			// ne.printStackTrace();
 		}
 
 		return id;
@@ -84,9 +84,9 @@ public class WikiDumpParser {
 			Element textTag = dom.getElementsByTag("text").get(0);
 			text = textTag.textNodes().get(0).text();
 		} catch (IndexOutOfBoundsException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (NumberFormatException ne) {
-//			ne.printStackTrace();
+			// ne.printStackTrace();
 		}
 
 		return text;
@@ -99,9 +99,9 @@ public class WikiDumpParser {
 			Element titleTag = dom.getElementsByTag("title").get(0);
 			title = titleTag.textNodes().get(0).text().trim();
 		} catch (IndexOutOfBoundsException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (NumberFormatException ne) {
-//			ne.printStackTrace();
+			// ne.printStackTrace();
 		}
 
 		return title;
@@ -156,7 +156,7 @@ public class WikiDumpParser {
 			// 혹은 '.', '/', ':'가 포함되어 있으면 마찬가지로 무시한다
 			link = link.trim();
 			if (link.equals("") || link.contains(".") || link.contains("/")
-					|| link.contains(":")) {
+					|| link.contains(":") || link.contains("-")) {
 				continue;
 			}
 
@@ -180,17 +180,17 @@ public class WikiDumpParser {
 			sLink = sLink.trim();
 
 			// 첫번째 문자만 소문자화한다
-//			try {
-//				sLink = Character.toLowerCase(sLink.charAt(0))
-//						+ sLink.substring(1);
-//			} catch (IndexOutOfBoundsException e) {
-//				if (sLink.isEmpty()) {
-//					continue;
-//				}
-//
-////				System.err.println(link);
-//				sLink = String.valueOf(Character.toLowerCase(sLink.charAt(0)));
-//			}
+			// try {
+			// sLink = Character.toLowerCase(sLink.charAt(0))
+			// + sLink.substring(1);
+			// } catch (IndexOutOfBoundsException e) {
+			// if (sLink.isEmpty()) {
+			// continue;
+			// }
+			//
+			// // System.err.println(link);
+			// sLink = String.valueOf(Character.toLowerCase(sLink.charAt(0)));
+			// }
 
 			// 리스트에 추가
 			sanitizedLinks.add(sLink);
