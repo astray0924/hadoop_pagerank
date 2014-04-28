@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -155,8 +156,11 @@ public class WikiDumpParser {
 			// 만약 link가 비어있으면 무시
 			// 혹은 '.', '/', ':'가 포함되어 있으면 마찬가지로 무시한다
 			link = link.trim();
-			if (link.equals("") || link.contains(".") || link.contains("/")
-					|| link.contains(":") || link.contains("-")) {
+//			if (link.equals("") || link.contains(".") || link.contains("/")
+//					|| link.contains(":") || link.contains("-")) {
+//				continue;
+//			}
+			if (!StringUtils.isAlphanumericSpace(link)) {
 				continue;
 			}
 

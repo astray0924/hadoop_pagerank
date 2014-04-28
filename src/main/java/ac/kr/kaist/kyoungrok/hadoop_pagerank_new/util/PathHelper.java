@@ -52,25 +52,35 @@ public class PathHelper {
 
 		switch (pName) {
 		case PARSE:
-			return new Path(basePath, new Path(NAME_PARSE));
+			// return new Path(basePath, new Path(NAME_PARSE));
+			return new Path(NAME_PARSE);
 		case METANODES:
-			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
-					NAME_META_NODES));
+			// return new Path(new Path(basePath, new Path(NAME_PARSE)), new
+			// Path(
+			// NAME_META_NODES));
+			return new Path(new Path(NAME_PARSE), new Path(NAME_META_NODES));
 		case TITLEIDMAP:
-			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
-					NAME_TITLE_ID_MAP));
+			// return new Path(new Path(basePath, new Path(NAME_PARSE)), new
+			// Path(
+			// NAME_TITLE_ID_MAP));
+			return new Path(new Path(NAME_PARSE), new Path(NAME_TITLE_ID_MAP));
 		case IDTITLEMAP:
-			return new Path(new Path(basePath, new Path(NAME_PARSE)), new Path(
-					NAME_ID_TITLE_MAP));
+			// return new Path(new Path(basePath, new Path(NAME_PARSE)), new
+			// Path(
+			// NAME_ID_TITLE_MAP));
+			return new Path(new Path(NAME_PARSE), new Path(NAME_ID_TITLE_MAP));
 		case OUTDEGREE:
-			return new Path(basePath, new Path(NAME_OUT_DEGREE));
+			// return new Path(basePath, new Path(NAME_OUT_DEGREE));
+			return new Path(NAME_OUT_DEGREE);
 		case INDEGREE:
-			return new Path(basePath, new Path(NAME_IN_DEGREE));
+			// return new Path(basePath, new Path(NAME_IN_DEGREE));
+			return new Path(NAME_IN_DEGREE);
 		case GRAPH:
-			return new Path(basePath, new Path(NAME_GRAPH));
+			// return new Path(basePath, new Path(NAME_GRAPH));
+			return new Path(NAME_GRAPH);
 		case RANK:
-			return new Path(NAME_RANK);
 			// return new Path(basePath, new Path(NAME_RANK));
+			return new Path(NAME_RANK);
 		case RESULT:
 			return new Path(basePath, new Path(NAME_RESULT));
 		default:

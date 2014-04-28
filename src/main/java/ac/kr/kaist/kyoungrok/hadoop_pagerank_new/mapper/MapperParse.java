@@ -28,7 +28,8 @@ public class MapperParse extends Mapper<LongWritable, Text, Text, PageMetaNode> 
 		parser.parse(page);
 
 		// ns의 값이 0일때만 페이지 정보 추출 및 저장
-		if (parser.getNs() == 0) {
+		if (parser.getNs() == 0
+				&& StringUtils.isAlphanumericSpace(parser.getTitle())) {
 			// 필요한 정보 추출
 			String title = parser.getTitle();
 			int id = parser.getId();
