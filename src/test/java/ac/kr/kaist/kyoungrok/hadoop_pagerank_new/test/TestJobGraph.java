@@ -11,9 +11,9 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperGraph;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.mapper.MapperGraph;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.PageRankNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.VIntArrayWritable;
 
 public class TestJobGraph {
 	private static Map<VIntWritable, PageRankNode> graph;

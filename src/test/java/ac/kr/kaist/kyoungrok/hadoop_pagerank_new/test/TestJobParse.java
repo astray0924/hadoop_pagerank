@@ -18,8 +18,8 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperParse;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.mapper.MapperParse;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.PageMetaNode;
 
 public class TestJobParse {
 	private List<String> pages;

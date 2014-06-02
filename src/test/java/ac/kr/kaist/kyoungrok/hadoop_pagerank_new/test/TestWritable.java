@@ -10,8 +10,8 @@ import java.util.Arrays;
 import org.apache.hadoop.io.Writable;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.PageMetaNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.PageRankNode;
 
 public class TestWritable {
 	public static byte[] serialize(Writable writable) throws IOException {

@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.Path;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.util.PathHelper;
 
 public class TestPathHelper {
 	private Configuration conf;

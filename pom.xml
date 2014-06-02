@@ -23,7 +23,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver</mainClass>
+							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank.driver.PageRankDriver</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -47,7 +47,7 @@
 					</descriptors>
 					<archive>
 						<manifest>
-							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank_new.driver.PageRankDriver</mainClass>
+							<mainClass>ac.kr.kaist.kyoungrok.hadoop_pagerank.driver.PageRankDriver</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

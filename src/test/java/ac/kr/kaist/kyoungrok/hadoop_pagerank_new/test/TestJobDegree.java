@@ -17,12 +17,12 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperInDegree;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.mapper.MapperOutDegree;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.reducer.ReducerDegree;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PathHelper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageMetaNode;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.mapper.MapperInDegree;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.mapper.MapperOutDegree;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.reducer.ReducerDegree;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.util.PathHelper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.PageMetaNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.VIntArrayWritable;
 
 public class TestJobDegree {
 	private Pair<Text, PageMetaNode> mapperInput;

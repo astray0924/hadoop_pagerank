@@ -10,9 +10,9 @@ import org.apache.hadoop.io.Writable;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.util.PageRankHelper;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.PageRankNode;
-import ac.kr.kaist.kyoungrok.hadoop_pagerank_new.writable.VIntArrayWritable;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.util.PageRankHelper;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.PageRankNode;
+import ac.kr.kaist.kyoungrok.hadoop_pagerank.writable.VIntArrayWritable;
 
 public class TestPageRank {
 	private Map<VIntWritable, PageRankNode> graph = new HashMap<VIntWritable, PageRankNode>();
